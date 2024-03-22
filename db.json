@@ -1,0 +1,55 @@
+{
+  "users": [
+    {
+      "id": "2",
+      "name": "stavan",
+      "email": "stavan@gmail.com",
+      "pswd": "alicepass",
+      "cpswd": "alicepass",
+      "role": "user",
+      "State": "wrewe",
+      "state": "erre",
+      "contact": "rtert"
+    },
+    {
+      "id": "4",
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "pswd": "adminpass",
+      "cpswd": "adminpass",
+      "role": "admin",
+      "contact": "rrrr",
+      "state": "rrrr"
+    },
+    {
+      "id": "aa7f",
+      "name": "suhil",
+      "email": "s@gmail.com",
+      "pswd": "11111111",
+      "cpswd": "11111111",
+      "role": "User",
+      "contact": "254254242424542"
+    },
+    {
+      "id": "b442",
+      "name": "RRR",
+      "email": "r@gmail.com",
+      "contact": "09104481818",
+      "state": "Gujarat",
+      "pswd": "rrrrrrrr",
+      "cpswd": "rrrrrrrr",
+      "role": "User",
+      "State": "gfgdg"
+    },
+    {
+      "id": "171e",
+      "name": "w",
+      "email": "w@gmail.com",
+      "contact": "09104481818",
+      "state": "Gujarat",
+      "pswd": "wwwwwwww",
+      "cpswd": "wwwwwwww",
+      "role": "User"
+    }
+  ]
+}
