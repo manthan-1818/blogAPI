@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Modal, Button, Form, Col } from "react-bootstrap";
+import NavComponent from "./Navbar.js";
 
 const Dashboard = () => {
   const [confirmedLogout, setConfirmedLogout] = useState(false);
@@ -12,11 +14,10 @@ const Dashboard = () => {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", role: "" });
   const [id, setId] = useState(null);
-  
 
   const storedData = localStorage.getItem("data");
   const data = JSON.parse(storedData);
-  const [role, setRole] = useState(data.role !== "User"); 
+  const [role, setRole] = useState(data.role !== "User");
   console.log("...........", data.role);
 
   useEffect(() => {
@@ -83,9 +84,6 @@ const Dashboard = () => {
       return;
     }
   };
-  
-
-
 
   const deleteButtonRenderer = (params) => {
     return (
@@ -100,23 +98,22 @@ const Dashboard = () => {
 
   const columnDefs = [
     { headerName: "ID", field: "id", width: 50 },
-    { headerName: "Name", field: "name" },
-    { headerName: "Email", field: "email" },
-    { headerName: "Role", field: "role" },
-    { headerName: "Contact", field: "contact" },
-    { headerName: "State", field: "state" },
+    { headerName: "Name", field: "name", filter: true },
+    { headerName: "Email", field: "email", filter: true },
+    { headerName: "Role", field: "role", filter: true },
+    { headerName: "Contact", field: "contact", filter: true },
+    { headerName: "State", field: "state", filter: true },
     { headerName: "Edit", cellRenderer: editButtonRenderer },
     { headerName: "Delete", cellRenderer: deleteButtonRenderer },
   ];
 
   const columnUser = [
     { headerName: "ID", field: "id", width: 50 },
-    { headerName: "Name", field: "name" },
-    { headerName: "Email", field: "email" },
-    { headerName: "Role", field: "role" },
-    { headerName: "Contact", field: "contact" },
-    { headerName: "State", field: "state" },
-  
+    { headerName: "Name", field: "name", filter: true },
+    { headerName: "Email", field: "email", filter: true },
+    { headerName: "Role", field: "role", filter: true },
+    { headerName: "Contact", field: "contact", filter: true },
+    { headerName: "State", field: "state", filter: true },
   ];
 
   const gridOptions = {
@@ -151,34 +148,19 @@ const Dashboard = () => {
 
   return (
     <>
+      <NavComponent />
       {confirmedLogout ? (
         <p>Logging out...</p>
       ) : (
         <>
-          <div className="container-fluid text-center pt-2">
-            <div className="d-flex justify-content-between align-items-center">
-              <p className="d-inline-block bg-white text-black mx-auto px-4 py-2 rounded-pill shadow">
-                Admin dashboard
-              </p>
-              <button
-                className="btn btn-secondary logout"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-              <button
-            className="btn btn-primary"
-            onClick={() => setShow(true)}
-          >
-            Add User
-          </button>
-          
-            </div>
-          </div>
           <div className="container-flex header text-light text-center fs-3 bg-danger">
             CRUD APP
+           
           </div>
-
+          {/* <div style={{height:"40px"}}><button className="btn btn-primary float-end " onClick={() => setShow(true)}>
+            Add User
+          </button></div> */}
+          
           {role ? (
             <div
               className="ag-theme-alpine"
@@ -209,11 +191,19 @@ const Dashboard = () => {
         </>
       )}
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton className="modalTitle">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        style={{ border: "2px solid blue", borderRadius: "10px" }}
+      >
+        <Modal.Header
+          closeButton
+          className="modalTitle"
+          style={{ backgroundColor: "lightblue", color: "black" }}
+        >
           <Modal.Title>Update Form</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ backgroundColor: "lightblue" }}>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formGridName">
               <Form.Label className="modalLabel">Name</Form.Label>
@@ -270,7 +260,7 @@ const Dashboard = () => {
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer style={{ backgroundColor: "lightblue" }}>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>

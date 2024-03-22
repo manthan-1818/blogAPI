@@ -12,23 +12,14 @@
       "contact": "rtert"
     },
     {
-      "id": "4",
-      "name": "Admin User",
-      "email": "admin@example.com",
-      "pswd": "adminpass",
-      "cpswd": "adminpass",
-      "role": "admin",
-      "contact": "rrrr",
-      "state": "rrrr"
-    },
-    {
       "id": "aa7f",
       "name": "suhil",
       "email": "s@gmail.com",
       "pswd": "11111111",
       "cpswd": "11111111",
       "role": "User",
-      "contact": "254254242424542"
+      "contact": "254254242424542",
+      "state": "maharastra"
     },
     {
       "id": "b442",
@@ -50,6 +41,33 @@
       "pswd": "wwwwwwww",
       "cpswd": "wwwwwwww",
       "role": "User"
+    },
+    {
+      "id": "ea80",
+      "name": "manthan",
+      "email": "m@gmail.com",
+      "contact": "09104481818",
+      "state": "Gujarat",
+      "pswd": "mmmmmmmm",
+      "cpswd": "mmmmmmmm",
+      "role": "Admin"
+    }
+  ],
+  "blog": [
+    {
+      "id": "9641",
+      "title": "gfhge",
+      "description": "fjf"
+    },
+    {
+      "id": "e8ca",
+      "title": "ugf",
+      "description": "efebf"
+    },
+    {
+      "id": "53df",
+      "title": "yjyj",
+      "description": "jjf"
     }
   ]
 }
