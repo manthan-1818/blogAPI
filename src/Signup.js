@@ -8,7 +8,6 @@ const roles = [
   { id: 1, name: "User" },
   { id: 2, name: "Admin" },
 ];
-
 const Signup = () => {
   const [data, setData] = useState({
     name: "",
@@ -26,6 +25,7 @@ const Signup = () => {
   const [pswd, setPswd] = useState("");
   const [cpswd, setCpswd] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleRoleChange = (event) => {
@@ -35,7 +35,6 @@ const Signup = () => {
 
   const handleStateChange = (event) => {
     setData({
-      // Update data state with new state
       ...data,
       state: event.target.value,
     });
@@ -43,11 +42,8 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Set the form submitted flag to true
-    setSubmitted(true);
 
     try {
-      // Check if any required field is empty
       if (
         !data.name ||
         !data.email ||
@@ -55,6 +51,7 @@ const Signup = () => {
         !data.cpswd ||
         !data.role
       ) {
+        setSubmitted(true);
         console.error("Please fill in all required fields.");
         return; // Exit the function early if any required field is empty
       }
@@ -70,7 +67,12 @@ const Signup = () => {
         cpswd: "",
         role: "",
       });
-      navigate("/");
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        setSubmitted(false);
+        navigate("/");
+      }, 1000);
     } catch (error) {
       console.error("Error submitting data:", error);
     }
@@ -104,6 +106,11 @@ const Signup = () => {
           <div className="col-sm-8">
             <h2 className="signup mt-3 mb-3">Signup</h2>
             <div className="card shadow p-4">
+              {success && ( // Render success message if success is true
+                <div className="alert alert-success" role="alert">
+                  Registration successful!
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
