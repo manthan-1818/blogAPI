@@ -51,6 +51,26 @@
       "pswd": "mmmmmmmm",
       "cpswd": "mmmmmmmm",
       "role": "Admin"
+    },
+    {
+      "id": "dc90",
+      "name": "ug",
+      "email": "ug@gmail.com",
+      "contact": "09104481818",
+      "state": "Gujarat",
+      "pswd": "uuuuuuuu",
+      "cpswd": "uuuuuuuu",
+      "role": "User"
+    },
+    {
+      "id": "b4c6",
+      "name": "tu",
+      "email": "tu@gmail.com",
+      "contact": "09104481818",
+      "state": "Gujarat",
+      "pswd": "tttttttt",
+      "cpswd": "tttttttt",
+      "role": "User"
     }
   ],
   "blog": [

@@ -106,11 +106,7 @@ const Signup = () => {
           <div className="col-sm-8">
             <h2 className="signup mt-3 mb-3">Signup</h2>
             <div className="card shadow p-4">
-              {success && ( // Render success message if success is true
-                <div className="alert alert-success" role="alert">
-                  Registration successful!
-                </div>
-              )}
+              
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
@@ -232,6 +228,11 @@ const Signup = () => {
                     ))}
                   </select>
                 </div>
+                {success && ( // Render success message if success is true
+                <div className="alert alert-success" role="alert">
+                  Registration successful!
+                </div>
+              )}
                 <button type="submit" className="btn btn-dark mt-3 mb-3">
                   Submit
                 </button>
