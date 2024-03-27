@@ -104,7 +104,6 @@ const Blog = () => {
       console.error("Error deleting blog:", error);
     }
   };
-  
 
   const handleShowDeleteModal = (id) => {
     setDeleteId(id); // Set the ID of the blog to be deleted
@@ -136,7 +135,7 @@ const Blog = () => {
     { headerName: "ID", field: "id", width: 100 }, // Adjusted width to accommodate the ID numbers
     { headerName: "Title", field: "title", flex: 1 },
     { headerName: "Description", field: "description", flex: 1 },
-    { 
+    {
       headerName: "Actions",
       cellRenderer: editButtonRenderer,
       width: 150,
@@ -144,42 +143,37 @@ const Blog = () => {
       resizable: false,
     },
   ];
-  
-  
-  
-  
 
   useEffect(() => {
     fetchBlogData();
   }, []);
 
-  return ( 
-  
+  return (
     <>
-    <NavComponent />
-    <Row className="justify-content-center">
-      <Col>
-        <header className="text-center mb-4">
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="flex-grow-1 text-center mt-2">
-              <h3>Blog App in React</h3>
+      <NavComponent />
+      <Row className="justify-content-center">
+        <Col>
+          <header className="text-center mb-4">
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="flex-grow-1 text-center mt-2">
+                <h3>Blog App in React</h3>
+              </div>
+              {role && (
+                <Button
+                  variant="primary"
+                  onClick={handleShowAddModal}
+                  style={{ marginRight: "18px", padding: "5px 8px" }}
+                >
+                  Add Blog
+                </Button>
+              )}
             </div>
-            {role && (
-              <Button
-                variant="primary"
-                onClick={handleShowAddModal}
-                style={{ marginRight: "18px" ,padding: "5px 8px",}} 
-              >
-                Add Blog
-              </Button>
-            )}
+          </header>
+          <div className="ag-theme-alpine" style={{ height: "500px" }}>
+            <AgGridReact columnDefs={columnDefs} rowData={blog} />
           </div>
-        </header>
-        <div className="ag-theme-alpine" style={{ height: "500px" }}>
-          <AgGridReact columnDefs={columnDefs} rowData={blog} />
-        </div>
-      </Col>
-    </Row>
+        </Col>
+      </Row>
 
       <Modal
         show={showAddModal}
@@ -187,7 +181,45 @@ const Blog = () => {
         centered
         className="blog-modal"
       >
-        {/* Add Blog Modal Content */}
+        <Modal.Header
+          closeButton
+          className="modalTitle"
+          style={{ backgroundColor: "lightblue", color: "black" }}
+        >
+          <Modal.Title>Add Blog</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: "lightblue" }}>
+          <Form onSubmit={handleSubmitAdd}>
+            <Form.Group className="mb-2" controlId="formGridTitle">
+              <Form.Label className="modalLabel">Title</Form.Label>
+              <Form.Control
+                placeholder="Enter title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formGridDescription">
+              <Form.Label className="modalLabel">Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: "lightblue" }}>
+          <Button variant="secondary" onClick={handleCloseAddModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmitAdd}>
+            Submit
+          </Button>
+        </Modal.Footer>
       </Modal>
 
       <Modal
@@ -196,7 +228,45 @@ const Blog = () => {
         centered
         className="blog-modal"
       >
-        {/* Update Blog Modal Content */}
+        <Modal.Header
+          closeButton
+          className="modalTitle"
+          style={{ backgroundColor: "lightgreen", color: "black" }}
+        >
+          <Modal.Title>Update Blog</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: "lightgreen" }}>
+          <Form onSubmit={handleSubmitAdd}>
+            <Form.Group className="mb-2" controlId="formGridTitle">
+              <Form.Label className="modalLabel">Title</Form.Label>
+              <Form.Control
+                placeholder="Enter title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formGridDescription">
+              <Form.Label className="modalLabel">Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: "lightgreen" }}>
+          <Button variant="secondary" onClick={handleCloseUpdateModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmitUpdate}>
+            Submit
+          </Button>
+        </Modal.Footer>
       </Modal>
 
       <Modal
@@ -208,9 +278,7 @@ const Blog = () => {
         <Modal.Header closeButton>
           <Modal.Title>Delete Blog</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete this blog?
-        </Modal.Body>
+        <Modal.Body>Are you sure you want to delete this blog?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseDeleteModal}>
             Cancel
@@ -225,3 +293,14 @@ const Blog = () => {
 };
 
 export default Blog;
+
+
+
+
+
+
+
+
+
+
+

@@ -129,19 +129,14 @@
       "role": "Admin"
     },
     {
-      "id": "0d22",
-      "name": "xxx",
-      "email": "xxx@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "xxxxxxxx",
-      "cpswd": "xxxxxxxx",
-      "role": "Admin"
-    },
-    {
       "id": "a702",
       "title": "",
       "description": ""
+    },
+    {
+      "id": "2051",
+      "title": "cc",
+      "description": "vxvxv"
     }
   ]
 }
