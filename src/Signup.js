@@ -82,8 +82,18 @@ const Signup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
   
-    if (name === "name" || name === "email" || name === "contact" || name === "state") {
-      setData({ ...data, [name]: value });
+    if (name === "name") {
+      // Allow only characters and spaces
+      const regex = /^[a-zA-Z\s]*$/;
+      if (regex.test(value) || value === "") {
+        setData({ ...data, [name]: value });
+      }
+    } else if (name === "contact") {
+      // Allow only 10-digit numbers
+      const regex = /^\d{0,10}$/;
+      if (regex.test(value) || value === "") {
+        setData({ ...data, [name]: value });
+      }
     } else if (name === "pswd") {
       setPswd(value);
       setData({ ...data, pswd: value }); // Update data state for password
@@ -94,6 +104,7 @@ const Signup = () => {
       setData({ ...data, [name]: value });
     }
   };
+  
   
   useEffect(() => {
     // Validate password

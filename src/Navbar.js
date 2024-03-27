@@ -13,14 +13,14 @@ const NavComponent = () => {
         <Link
             to="/dashboard"
             id="link"
-            className="nav-link demo text-dark text-md"
+            className="nav-link demo text-white text-md"
           >
             Dashboard
           </Link>
           <Link
             to="/blog"
             id="link"
-            className="nav-link demo text-dark text-md"
+            className="nav-link demo text-white text-md"
           >
             Blog
           </Link>
