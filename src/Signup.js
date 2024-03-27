@@ -8,6 +8,7 @@ const roles = [
   { id: 1, name: "User" },
   { id: 2, name: "Admin" },
 ];
+
 const Signup = () => {
   const [data, setData] = useState({
     name: "",
@@ -53,7 +54,7 @@ const Signup = () => {
       ) {
         setSubmitted(true);
         console.error("Please fill in all required fields.");
-        return; // Exit the function early if any required field is empty
+        return;
       }
 
       const response = await axios.post("http://localhost:3001/users", data);
@@ -80,28 +81,32 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name === "pswd") {
+  
+    if (name === "name" || name === "email" || name === "contact" || name === "state") {
+      setData({ ...data, [name]: value });
+    } else if (name === "pswd") {
       setPswd(value);
+      setData({ ...data, pswd: value }); // Update data state for password
     } else if (name === "cpswd") {
       setCpswd(value);
+      setData({ ...data, cpswd: value }); // Update data state for confirm password
+    } else {
+      setData({ ...data, [name]: value });
     }
-
-    setData({ ...data, [name]: value });
   };
-
+  
   useEffect(() => {
+    // Validate password
     if (pswd.length >= 8 && cpswd === pswd) {
       setValid(true);
     } else {
       setValid(false);
     }
-  }, [pswd, cpswd]);
+  }, [pswd, cpswd]); 
 
   return (
     <>
       <div className="container-fluid">
-        {/* <h1 className="text-danger text-center mb-1">CRUD APP</h1> */}
         <div className="row justify-content-center">
           <div className="col-sm-8">
             <h2 className="signup mt-3 mb-3">Signup</h2>
@@ -228,7 +233,7 @@ const Signup = () => {
                     ))}
                   </select>
                 </div>
-                {success && ( // Render success message if success is true
+                {success && ( 
                 <div className="alert alert-success" role="alert">
                   Registration successful!
                 </div>

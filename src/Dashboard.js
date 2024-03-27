@@ -1,33 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Button, Modal, Form } from "react-bootstrap";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { Modal, Button, Form, Col } from "react-bootstrap";
 import NavComponent from "./Navbar.js";
-
 const Dashboard = () => {
-  const [confirmedLogout, setConfirmedLogout] = useState(false);
-  const [userData, setUserData] = useState([]);
+  const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", role: "" });
   const [id, setId] = useState(null);
-
-  const storedData = localStorage.getItem("data");
-  const data = JSON.parse(storedData);
-  const [role, setRole] = useState(data.role !== "User");
-  console.log("...........", data.role);
-
-  useEffect(() => {
-    const storedUserData = JSON.parse(localStorage.getItem("users"));
-    if (storedUserData) {
-      setUserData(storedUserData);
-    }
-  }, []);
-
-  const [users, setUsers] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,27 +26,6 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const handleLogout = () => {
-    const result = window.confirm("Are you sure you want to log out?");
-    if (result) {
-      setConfirmedLogout(true);
-      window.location.href = "/";
-    } else {
-      console.log("User clicked cancel");
-    }
-  };
-
-  const editButtonRenderer = (params) => {
-    return (
-      <button
-        className="btn btn-primary btn-sm"
-        onClick={() => editRow(params.data.id)}
-      >
-        Edit
-      </button>
-    );
-  };
-
   const editRow = async (id) => {
     const user = users.find((user) => user.id === id);
     setFormData(user);
@@ -70,29 +33,40 @@ const Dashboard = () => {
     setShow(true);
   };
 
-  const deleteRow = async (userId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete?");
-    if (confirmDelete) {
-      try {
-        await axios.delete(`http://localhost:3001/users/${userId}`);
-        console.log(`User deleted with ID ${userId}`);
-        setUsers(users.filter((user) => user.id !== userId));
-      } catch (error) {
-        console.error("Error deleting user:", error);
-      }
-    } else {
-      return;
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:3001/users/${deleteId}`);
+      console.log(`User deleted with ID ${deleteId}`);
+      setUsers(users.filter((user) => user.id !== deleteId));
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error("Error deleting user:", error);
     }
   };
 
-  const deleteButtonRenderer = (params) => {
+  const actionButtonRenderer = (params) => {
     return (
-      <button
-        className="btn btn-danger btn-sm"
-        onClick={() => deleteRow(params.data.id)}
-      >
-        Delete
-      </button>
+      <>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => editRow(params.data.id)}
+          className="mx-2"
+        >
+          Edit
+        </Button>{" "}
+        <Button
+          variant="danger"
+          size="sm"
+          onClick={() => {
+            setShowDeleteModal(true);
+            setDeleteId(params.data.id);
+          }}
+          className="mx-2"
+        >
+          Delete
+        </Button>
+      </>
     );
   };
 
@@ -103,27 +77,8 @@ const Dashboard = () => {
     { headerName: "Role", field: "role", filter: true },
     { headerName: "Contact", field: "contact", filter: true },
     { headerName: "State", field: "state", filter: true },
-    { headerName: "Edit", cellRenderer: editButtonRenderer },
-    { headerName: "Delete", cellRenderer: deleteButtonRenderer },
+    { headerName: "Actions", cellRenderer: actionButtonRenderer },
   ];
-
-  const columnUser = [
-    { headerName: "ID", field: "id", width: 50 },
-    { headerName: "Name", field: "name", filter: true },
-    { headerName: "Email", field: "email", filter: true },
-    { headerName: "Role", field: "role", filter: true },
-    { headerName: "Contact", field: "contact", filter: true },
-    { headerName: "State", field: "state", filter: true },
-  ];
-
-  const gridOptions = {
-    defaultColDef: {
-      sortable: true,
-      resizable: true,
-      flex: 1,
-    },
-    suppressCellSelection: true,
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -132,6 +87,10 @@ const Dashboard = () => {
 
   const handleClose = () => {
     setShow(false);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
   };
 
   const handleSubmit = async () => {
@@ -148,65 +107,33 @@ const Dashboard = () => {
 
   return (
     <>
-      <NavComponent />
-      {confirmedLogout ? (
-        <p>Logging out...</p>
-      ) : (
-        <>
-          <div className="container-flex header text-light text-center fs-3 bg-danger">
-            CRUD APP
-           
+    <NavComponent />
+      <div className="container">
+        <div className="row mt-3 mb-3">
+          <div className="col">
+            <h3>User Dashboard</h3>
           </div>
-          {/* <div style={{height:"40px"}}><button className="btn btn-primary float-end " onClick={() => setShow(true)}>
-            Add User
-          </button></div> */}
-          
-          {role ? (
+        </div>
+        <div className="row">
+          <div className="col">
             <div
               className="ag-theme-alpine"
-              style={{ height: "1200px", width: "100%" }}
+              style={{ height: "500px", width: "100%" }}
             >
-              <AgGridReact
-                gridOptions={gridOptions}
-                columnDefs={columnDefs}
-                rowData={users}
-                frameworkComponents={{
-                  editButtonRenderer: editButtonRenderer,
-                  deleteButtonRenderer: deleteButtonRenderer,
-                }}
-              />
+              <AgGridReact columnDefs={columnDefs} rowData={users} />
             </div>
-          ) : (
-            <div
-              className="ag-theme-alpine"
-              style={{ height: "1200px", width: "100%" }}
-            >
-              <AgGridReact
-                gridOptions={gridOptions}
-                columnDefs={columnUser}
-                rowData={users}
-              />
-            </div>
-          )}
-        </>
-      )}
+          </div>
+        </div>
+      </div>
 
-      <Modal
-        show={show}
-        onHide={handleClose}
-        style={{ border: "2px solid blue", borderRadius: "10px" }}
-      >
-        <Modal.Header
-          closeButton
-          className="modalTitle"
-          style={{ backgroundColor: "lightblue", color: "black" }}
-        >
-          <Modal.Title>Update Form</Modal.Title>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit User</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ backgroundColor: "lightblue" }}>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formGridName">
-              <Form.Label className="modalLabel">Name</Form.Label>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formName">
+              <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter name"
@@ -215,8 +142,8 @@ const Dashboard = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formGridEmail">
-              <Form.Label className="modalLabel">Email</Form.Label>
+            <Form.Group controlId="formEmail">
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter email"
@@ -225,42 +152,19 @@ const Dashboard = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formGridContact">
-              <Form.Label className="modalLabel">Contact</Form.Label>
+            <Form.Group controlId="formRole">
+              <Form.Label>Role</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter contact number"
-                name="contact"
-                value={formData.contact}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formGridState">
-              <Form.Label className="modalLabel">State</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter state"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formGridRole">
-              <Form.Label className="modalLabel">Role</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
+                placeholder="Enter role"
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-              >
-                <option disabled>Select Role</option>
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-              </Form.Select>
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: "lightblue" }}>
+        <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
@@ -269,8 +173,27 @@ const Dashboard = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
-  );
+
+      {/* Delete Modal */}
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this user?
+</Modal.Body>
+<Modal.Footer>
+<Button variant="secondary" onClick={handleCloseDeleteModal}>
+Cancel
+</Button>
+<Button variant="danger" onClick={handleDelete}>
+Delete
+</Button>
+</Modal.Footer>
+</Modal>
+</>
+);
 };
 
 export default Dashboard;
+

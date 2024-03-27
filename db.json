@@ -1,27 +1,6 @@
 {
   "users": [
     {
-      "id": "2",
-      "name": "stavan",
-      "email": "stavan@gmail.com",
-      "pswd": "alicepass",
-      "cpswd": "alicepass",
-      "role": "user",
-      "State": "wrewe",
-      "state": "erre",
-      "contact": "rtert"
-    },
-    {
-      "id": "aa7f",
-      "name": "suhil",
-      "email": "s@gmail.com",
-      "pswd": "11111111",
-      "cpswd": "11111111",
-      "role": "User",
-      "contact": "254254242424542",
-      "state": "maharastra"
-    },
-    {
       "id": "b442",
       "name": "RRR",
       "email": "r@gmail.com",
@@ -71,28 +50,53 @@
       "pswd": "tttttttt",
       "cpswd": "tttttttt",
       "role": "User"
+    },
+    {
+      "id": "9dac",
+      "name": "w",
+      "email": "w@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "wwwwwwww",
+      "cpswd": "wwwwwwww",
+      "role": "Admin"
+    },
+    {
+      "id": "9d7b",
+      "name": "yoyo",
+      "email": "y@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "yyyyyyyy",
+      "cpswd": "yyyyyyyy",
+      "role": "Admin"
+    },
+    {
+      "id": "81e5",
+      "name": "manthan",
+      "email": "ma@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "mmmmmmmm",
+      "cpswd": "mmmmmmmm",
+      "role": "Admin"
+    },
+    {
+      "id": "7cb1",
+      "name": "dvd",
+      "email": "d@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "ddddddddd",
+      "cpswd": "dddddddd",
+      "role": "Admin"
     }
   ],
   "blog": [
     {
-      "id": "9641",
-      "title": "gfhge",
-      "description": "fjf"
-    },
-    {
       "id": "e8ca",
       "title": "ugf",
       "description": "efebf"
-    },
-    {
-      "id": "e3d3",
-      "name": "aaaaa",
-      "email": "aaaam@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "aaaaaaa",
-      "cpswd": "aaaaaaaa",
-      "role": "Admin"
     },
     {
       "id": "eae7",
@@ -105,29 +109,9 @@
       "role": "User"
     },
     {
-      "id": "fd2a",
-      "name": "xxxx",
-      "email": "x@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "xxxxxxx",
-      "cpswd": "xxxxxxxx",
-      "role": "Admin"
-    },
-    {
       "id": "c756",
       "name": "aaaaa",
       "email": "rhaaydham@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "aaaaaaaa",
-      "cpswd": "aaaaaaaa",
-      "role": "Admin"
-    },
-    {
-      "id": "646c",
-      "name": "aaaaaaaaaaaa",
-      "email": "maaa@gmail.com",
       "contact": "09104481818",
       "state": "Gujarat",
       "pswd": "aaaaaaaa",
@@ -145,26 +129,6 @@
       "role": "Admin"
     },
     {
-      "id": "616c",
-      "name": "ffff",
-      "email": "mf@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "ffffffff",
-      "cpswd": "ffffffff",
-      "role": "Admin"
-    },
-    {
-      "id": "eabe",
-      "name": "gg",
-      "email": "gq@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "gggggggg",
-      "cpswd": "gggggggg",
-      "role": "Admin"
-    },
-    {
       "id": "0d22",
       "name": "xxx",
       "email": "xxx@gmail.com",
@@ -175,24 +139,9 @@
       "role": "Admin"
     },
     {
-      "id": "4f8e",
-      "name": "stavant",
-      "email": "stt@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "ssssssss",
-      "cpswd": "ssssssss",
-      "role": "User"
-    },
-    {
-      "id": "2d53",
-      "name": "suhill",
-      "email": "su@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "ssssssss",
-      "cpswd": "ssssssss",
-      "role": "User"
+      "id": "a702",
+      "title": "",
+      "description": ""
     }
   ]
 }

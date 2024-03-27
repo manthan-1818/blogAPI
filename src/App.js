@@ -5,6 +5,7 @@ import Signup from "./Signup.js";
 import Dashboard from './Dashboard';
 import Blog from './Blog';
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./Navbar.css"
 
 function App() {
   return (

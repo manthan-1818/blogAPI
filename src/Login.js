@@ -16,10 +16,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Fetch user data from the API
+     
       const response = await axios.get("http://localhost:3001/users");
       const users = response.data;
-      // Log the entire response and users array to inspect their structure
       console.log("Response:", response);
       console.log("Users:", users);
       for (let i = 0; i < users.length; i++) {
@@ -29,7 +28,7 @@ const Login = () => {
           users[i].pswd === credentials.password &&
           credentials.password !== ""
         ) {
-          // console.log("sucess");
+        
           const data = {
             name: users[i].name,
             email: users[i].email,
@@ -39,16 +38,16 @@ const Login = () => {
           };
           
           localStorage.setItem("data", JSON.stringify(data));
-          // locatStorage.seItem('')
+         
           navigate("/dashboard");
 
           return;
         } else {
           setError("Invalid email or password");
-          // console.log("unsucess");
+          
         }
       }
-      // Rest of your code...
+     
     } catch (error) {
       console.error("Login failed", error);
       setError("An error occurred while logging in");
