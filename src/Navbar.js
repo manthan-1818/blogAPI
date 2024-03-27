@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link } from "react-router-dom";
 
 const NavComponent = () => {
   return (
@@ -9,8 +10,20 @@ const NavComponent = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
-      <Nav.Link href="/dashboard" className="text-white">Dashboard</Nav.Link>
-      <Nav.Link href="/blog" className="text-white">Blog</Nav.Link>
+        <Link
+            to="/dashboard"
+            id="link"
+            className="nav-link demo text-dark text-md"
+          >
+            Dashboard
+          </Link>
+          <Link
+            to="/blog"
+            id="link"
+            className="nav-link demo text-dark text-md"
+          >
+            Blog
+          </Link>
     </Nav>
         <Nav>
           <Nav.Link href="/" style={{ marginRight: "10px" }}>
