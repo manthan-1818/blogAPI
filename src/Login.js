@@ -19,8 +19,6 @@ const Login = () => {
      
       const response = await axios.get("http://localhost:3001/users");
       const users = response.data;
-      console.log("Response:", response);
-      console.log("Users:", users);
       for (let i = 0; i < users.length; i++) {
         if (
           users[i].email === credentials.email &&
@@ -37,8 +35,7 @@ const Login = () => {
             role: users[i].role
           };
           
-          localStorage.setItem("data", JSON.stringify(data));
-         
+          localStorage.setItem("userRole",data.role);
           navigate("/dashboard");
 
           return;

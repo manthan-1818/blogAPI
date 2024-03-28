@@ -58,7 +58,6 @@ const Signup = () => {
       }
 
       const response = await axios.post("http://localhost:3001/users", data);
-      console.log(response.data);
       setData({
         name: "",
         email: "",
@@ -81,39 +80,35 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     if (name === "name") {
-      // Allow only characters and spaces
       const regex = /^[a-zA-Z\s]*$/;
       if (regex.test(value) || value === "") {
         setData({ ...data, [name]: value });
       }
     } else if (name === "contact") {
-      // Allow only 10-digit numbers
       const regex = /^\d{0,10}$/;
       if (regex.test(value) || value === "") {
         setData({ ...data, [name]: value });
       }
     } else if (name === "pswd") {
       setPswd(value);
-      setData({ ...data, pswd: value }); // Update data state for password
+      setData({ ...data, pswd: value });
     } else if (name === "cpswd") {
       setCpswd(value);
-      setData({ ...data, cpswd: value }); // Update data state for confirm password
+      setData({ ...data, cpswd: value });
     } else {
       setData({ ...data, [name]: value });
     }
   };
-  
-  
+
   useEffect(() => {
-    // Validate password
     if (pswd.length >= 8 && cpswd === pswd) {
       setValid(true);
     } else {
       setValid(false);
     }
-  }, [pswd, cpswd]); 
+  }, [pswd, cpswd]);
 
   return (
     <>
@@ -122,7 +117,6 @@ const Signup = () => {
           <div className="col-sm-8">
             <h2 className="signup mt-3 mb-3">Signup</h2>
             <div className="card shadow p-4">
-              
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
@@ -244,11 +238,11 @@ const Signup = () => {
                     ))}
                   </select>
                 </div>
-                {success && ( 
-                <div className="alert alert-success" role="alert">
-                  Registration successful!
-                </div>
-              )}
+                {success && (
+                  <div className="alert alert-success" role="alert">
+                    Registration successful!
+                  </div>
+                )}
                 <button type="submit" className="btn btn-dark mt-3 mb-3">
                   Submit
                 </button>

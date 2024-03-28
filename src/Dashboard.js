@@ -14,13 +14,11 @@ const Dashboard = () => {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", role: "" });
   const [id, setId] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // New state for delete confirmation modal
-  const [userToDelete, setUserToDelete] = useState(null); // New state to store the ID of the user to delete
+  const [showDeleteModal, setShowDeleteModal] = useState(false); 
+  const [userToDelete, setUserToDelete] = useState(null); 
 
-  const storedData = localStorage.getItem("data");
-  const data = JSON.parse(storedData);
-  const [role, setRole] = useState(data.role !== "User");
-  console.log("...........", data.role);
+  const userRole = localStorage.getItem("userRole");
+
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("users"));
@@ -55,16 +53,21 @@ const Dashboard = () => {
   };
 
   const editButtonRenderer = (params) => {
-    return (
-      <button
-        className="btn btn-primary btn-sm"
-        onClick={() => editRow(params.data.id)}
-      >
-        Edit
-      </button>
-    );
+    
+    if (userRole === "Admin") {
+      return (
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={() => editRow(params.data.id)}
+        >
+          Edit
+        </button>
+      );
+    } else {
+      return null; 
+    }
   };
-
+  
   const editRow = async (id) => {
     const user = users.find((user) => user.id === id);
     setFormData(user);
@@ -73,23 +76,22 @@ const Dashboard = () => {
   };
 
   const deleteRow = async (userId) => {
-    setUserToDelete(userId); // Set the user ID to delete
-    setShowDeleteModal(true); // Show the delete confirmation modal
+    setUserToDelete(userId); 
+    setShowDeleteModal(true); 
   };
 
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(`http://localhost:3001/users/${userToDelete}`);
-      console.log(`User deleted with ID ${userToDelete}`);
       setUsers(users.filter((user) => user.id !== userToDelete));
-      setShowDeleteModal(false); // Hide the delete confirmation modal after deletion
+      setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting user:", error);
     }
   };
 
   const handleCancelDelete = () => {
-    setShowDeleteModal(false); // Hide the delete confirmation modal if cancelled
+    setShowDeleteModal(false); 
   };
 
   const deleteButtonRenderer = (params) => {
@@ -103,16 +105,26 @@ const Dashboard = () => {
     );
   };
 
+  const actionsCellRenderer = (params) => {
+    return (
+      <div>
+        <button className="btn btn-primary btn-sm" onClick={() => editRow(params.data.id)}>Edit</button>{' '}
+        <button className="btn btn-danger btn-sm" onClick={() => deleteRow(params.data.id)}>Delete</button>
+      </div>
+    );
+  };
+  
+
   const columnDefs = [
-    { headerName: "ID", field: "id", width: 50 },
+    { headerName: "ID", field: "id", width: 100 },
     { headerName: "Name", field: "name", filter: true },
     { headerName: "Email", field: "email", filter: true },
     { headerName: "Role", field: "role", filter: true },
     { headerName: "Contact", field: "contact", filter: true },
     { headerName: "State", field: "state", filter: true },
-    { headerName: "Edit", cellRenderer: editButtonRenderer },
-    { headerName: "Delete", cellRenderer: deleteButtonRenderer },
+    { headerName: "Actions", cellRenderer: actionsCellRenderer },
   ];
+  
 
   const columnUser = [
     { headerName: "ID", field: "id", width: 50 },
@@ -121,6 +133,13 @@ const Dashboard = () => {
     { headerName: "Role", field: "role", filter: true },
     { headerName: "Contact", field: "contact", filter: true },
     { headerName: "State", field: "state", filter: true },
+    {
+      headerName: "Actions",
+      cellRenderer: editButtonRenderer,
+      width: 150,
+      minWidth: 150,
+      resizable: false,
+    },
   ];
 
   const gridOptions = {
@@ -150,8 +169,6 @@ const Dashboard = () => {
   const handleSubmit = async () => {
     try {
       await axios.put(`http://localhost:3001/users/${id}`, formData);
-      console.log(`User updated with ID ${id}`);
-
       setUsers(users.map((user) => (user.id === id ? formData : user)));
       setShow(false);
     } catch (error) {
@@ -171,7 +188,7 @@ const Dashboard = () => {
   </div>
   <div className="row">
     <div className="col">
-      {role ? (
+      {userRole === "Admin" ?  (
         <div className="ag-theme-alpine" style={{ height: "500px", width: "100%" }}>
           <AgGridReact
             gridOptions={gridOptions}

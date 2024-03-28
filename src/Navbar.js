@@ -9,22 +9,25 @@ const NavComponent = () => {
     <Navbar expand="lg" className="bg-secondary">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-      <Nav className="me-auto">
-        <Link
+        <Nav className="me-auto">
+          <Link
             to="/dashboard"
             id="link"
-            className="nav-link demo text-white text-md"
+            className="nav-link demo text-white  text-md ml-10"
+            activeClassName="active"
           >
             Dashboard
           </Link>
+
           <Link
             to="/blog"
             id="link"
-            className="nav-link demo text-white text-md"
+            className="nav-link demo text-white  text-md ml-2"
+            activeClassName="active"
           >
             Blog
           </Link>
-    </Nav>
+        </Nav>
         <Nav>
           <Nav.Link href="/" style={{ marginRight: "10px" }}>
             <div

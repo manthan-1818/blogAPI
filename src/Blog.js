@@ -20,8 +20,8 @@ const Blog = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [blog, setBlog] = useState([]);
-  const userRole = localStorage.getItem("role");
-  const [role, setRole] = useState(userRole !== "user");
+  const userRole = localStorage.getItem("userRole");
+
   const [formData, setFormData] = useState({
     id: "",
     title: "",
@@ -111,7 +111,7 @@ const Blog = () => {
   };
 
   const editButtonRenderer = (params) => {
-    if (role) {
+    if (userRole === "Admin") {
       return (
         <>
           <Button
@@ -148,6 +148,10 @@ const Blog = () => {
     },
   ];
 
+  if (!userRole) {
+    columnDefs.pop();
+  }
+
   useEffect(() => {
     fetchBlogData();
   }, []);
@@ -162,7 +166,7 @@ const Blog = () => {
               <div className="flex-grow-1 text-center mt-2">
                 <h3>Blog App in React</h3>
               </div>
-              {role && (
+              {userRole === "Admin" ? (
                 <Button
                   variant="primary"
                   onClick={handleShowAddModal}
@@ -170,147 +174,141 @@ const Blog = () => {
                 >
                   Add Blog
                 </Button>
+              ) : (
+                ""
               )}
             </div>
           </header>
-          <div className="ag-theme-alpine" style={{ height: "500px"
+          <div className="ag-theme-alpine" style={{ height: "500px" }}>
+            <AgGridReact columnDefs={columnDefs} rowData={blog} />
+          </div>
+        </Col>
+      </Row>
+      <Modal
+        show={showAddModal}
+        onHide={handleCloseAddModal}
+        centered
+        className="blog-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add Blog</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmitAdd}>
+            <Form.Group controlId="formGridTitle">
+              <Form.Label>Title *</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+              />
+              {!formData.title && (
+                <Form.Text className="text-danger">Title is required</Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="formGridDescription">
+              <Form.Label>Description *</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+              {!formData.description && (
+                <Form.Text className="text-danger">
+                  Description is required
+                </Form.Text>
+              )}
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseAddModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmitAdd}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
-}}>
-<AgGridReact columnDefs={columnDefs} rowData={blog} />
-</div>
-</Col>
-</Row>
-<Modal
-    show={showAddModal}
-    onHide={handleCloseAddModal}
-    centered
-    className="blog-modal"
-  >
-    <Modal.Header closeButton>
-      <Modal.Title>Add Blog</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <Form onSubmit={handleSubmitAdd}>
-        <Form.Group controlId="formGridTitle">
-          <Form.Label>Title *</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-          />
-          {!formData.title && (
-            <Form.Text className="text-danger">
-              Title is required
-            </Form.Text>
-          )}
-        </Form.Group>
-        <Form.Group controlId="formGridDescription">
-          <Form.Label>Description *</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="Enter description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
-          {!formData.description && (
-            <Form.Text className="text-danger">
-              Description is required
-            </Form.Text>
-          )}
-        </Form.Group>
-      </Form>
-    </Modal.Body>
-    <Modal.Footer>
-      <Button variant="secondary" onClick={handleCloseAddModal}>
-        Close
-      </Button>
-      <Button variant="primary" onClick={handleSubmitAdd}>
-        Submit
-      </Button>
-    </Modal.Footer>
-  </Modal>
+      <Modal
+        show={showUpdateModal}
+        onHide={handleCloseUpdateModal}
+        centered
+        className="blog-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Update Blog</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmitUpdate}>
+            <Form.Group controlId="formGridTitle">
+              <Form.Label>Title *</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+              />
+              {!formData.title && (
+                <Form.Text className="text-danger">Title is required</Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="formGridDescription">
+              <Form.Label>Description *</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+              {!formData.description && (
+                <Form.Text className="text-danger">
+                  Description is required
+                </Form.Text>
+              )}
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseUpdateModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmitUpdate}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
-  <Modal
-    show={showUpdateModal}
-    onHide={handleCloseUpdateModal}
-    centered
-    className="blog-modal"
-  >
-    <Modal.Header closeButton>
-      <Modal.Title>Update Blog</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <Form onSubmit={handleSubmitUpdate}>
-        <Form.Group controlId="formGridTitle">
-          <Form.Label>Title *</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-          />
-          {!formData.title && (
-            <Form.Text className="text-danger">
-              Title is required
-            </Form.Text>
-          )}
-        </Form.Group>
-        <Form.Group controlId="formGridDescription">
-          <Form.Label>Description *</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="Enter description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
-          {!formData.description && (
-            <Form.Text className="text-danger">
-              Description is required
-            </Form.Text>
-          )}
-        </Form.Group>
-      </Form>
-    </Modal.Body>
-    <Modal.Footer>
-      <Button variant="secondary" onClick={handleCloseUpdateModal}>
-        Close
-      </Button>
-      <Button variant="primary" onClick={handleSubmitUpdate}>
-        Submit
-      </Button>
-    </Modal.Footer>
-  </Modal>
-
-  <Modal
-    show={showDeleteModal}
-    onHide={handleCloseDeleteModal}
-    centered
-    className="blog-modal"
-  >
-    <Modal.Header closeButton>
-      <Modal.Title>Delete Blog</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      Are you sure you want to delete this blog?
-    </Modal.Body>
-    <Modal.Footer>
-      <Button variant="secondary" onClick={handleCloseDeleteModal}>
-        Cancel
-      </Button>
-      <Button variant="danger" onClick={() => handleDelete(deleteId)}>
-        Delete
-      </Button>
-    </Modal.Footer>
-  </Modal>
-</>
-);
+      <Modal
+        show={showDeleteModal}
+        onHide={handleCloseDeleteModal}
+        centered
+        className="blog-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Blog</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this blog?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDeleteModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={() => handleDelete(deleteId)}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 };
 
 export default Blog;

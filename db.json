@@ -1,20 +1,9 @@
 {
   "users": [
     {
-      "id": "b442",
-      "name": "RRR",
-      "email": "r@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "rrrrrrrr",
-      "cpswd": "rrrrrrrr",
-      "role": "User",
-      "State": "gfgdg"
-    },
-    {
       "id": "ea80",
       "name": "manthan",
-      "email": "m@gmail.com",
+      "email": "m@gmail.comm",
       "contact": "09104481818",
       "state": "Gujarat",
       "pswd": "mmmmmmmm",
@@ -52,16 +41,6 @@
       "role": "Admin"
     },
     {
-      "id": "9d7b",
-      "name": "yoyo",
-      "email": "y@gmail.com",
-      "contact": "",
-      "state": "",
-      "pswd": "yyyyyyyy",
-      "cpswd": "yyyyyyyy",
-      "role": "Admin"
-    },
-    {
       "id": "81e5",
       "name": "manthan",
       "email": "ma@gmail.com",
@@ -91,7 +70,8 @@
       "state": "Gujarat",
       "pswd": "aaaaaaaa",
       "cpswd": "aaaaaaaa",
-      "role": "Admin"
+      "role": "Admin",
+      "title": "tertret"
     },
     {
       "id": "8e8d",
