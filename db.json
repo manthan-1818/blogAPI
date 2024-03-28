@@ -59,6 +59,36 @@
       "pswd": "ddddddddd",
       "cpswd": "dddddddd",
       "role": "Admin"
+    },
+    {
+      "id": "7c9e",
+      "name": "manthan",
+      "email": "ma@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Manthan1",
+      "cpswd": "Manthan1",
+      "role": "User"
+    },
+    {
+      "id": "b482",
+      "name": "jenil",
+      "email": "j@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Jenil111",
+      "cpswd": "Jenil111",
+      "role": "User"
+    },
+    {
+      "id": "a62c",
+      "name": "stavan",
+      "email": "st@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Stavan11",
+      "cpswd": "Stavan11",
+      "role": "User"
     }
   ],
   "blog": [

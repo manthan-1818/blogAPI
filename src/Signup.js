@@ -45,6 +45,14 @@ const Signup = () => {
     event.preventDefault();
 
     try {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+      if (!passwordRegex.test(data.pswd)) {
+        setSubmitted(true);
+        console.error(
+          "Password must contain at least 8 characters including one uppercase letter, one lowercase letter, and one number."
+        );
+        return;
+      }
       if (
         !data.name ||
         !data.email ||
@@ -80,7 +88,7 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+  
     if (name === "name") {
       const regex = /^[a-zA-Z\s]*$/;
       if (regex.test(value) || value === "") {
@@ -100,7 +108,13 @@ const Signup = () => {
     } else {
       setData({ ...data, [name]: value });
     }
+  
+
+    if (submitted) {
+      setSubmitted(false);
+    }
   };
+  
 
   useEffect(() => {
     if (pswd.length >= 8 && cpswd === pswd) {
@@ -174,6 +188,7 @@ const Signup = () => {
                       Please enter your password.
                     </div>
                   )}
+                  
                 </div>
                 <div className="mb-3">
                   <label htmlFor="confirmPassword" className="form-label">
