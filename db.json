@@ -89,44 +89,68 @@
       "pswd": "Stavan11",
       "cpswd": "Stavan11",
       "role": "User"
+    },
+    {
+      "id": "17b1",
+      "name": "suhil",
+      "email": "suhil@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Suhil111",
+      "cpswd": "Suhil111",
+      "role": "Admin"
+    },
+    {
+      "id": "84d5",
+      "name": "mitesh",
+      "email": "mitesh@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Miten111",
+      "cpswd": "Miten111",
+      "role": "User"
+    },
+    {
+      "id": "d08a",
+      "name": "Druval",
+      "email": "Dhruval@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Dhruval11",
+      "cpswd": "Dhruval11",
+      "role": "User"
     }
   ],
   "blog": [
     {
-      "id": "c756",
-      "name": "aaaaa",
-      "email": "rhaaydham@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "aaaaaaaa",
-      "cpswd": "aaaaaaaa",
-      "role": "Admin",
-      "title": "tertret"
+      "id": "9c84",
+      "title": "Echoes of Eternity",
+      "description": "Exploring the Cosmic Symphony"
     },
     {
-      "id": "8e8d",
-      "name": "cccccccc",
-      "email": "ccm@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "ccccccc",
-      "cpswd": "cccccccc",
-      "role": "Admin"
+      "id": "8c22",
+      "title": "Whispers of the Universe",
+      "description": "Embark on a cosmic odyssey to reveal the profound secrets whispered by the universe itself.\n\n"
     },
     {
-      "id": "2051",
-      "title": "cc",
-      "description": "vxvxv"
+      "id": "d52d",
+      "title": "Tales from the Edge of Space",
+      "description": "Discover captivating tales from the far reaches of the galaxy, where adventure and wonder await at every cosmic turn."
     },
     {
-      "id": "332a",
-      "title": "ddfvdf",
-      "description": "dfvdbdfbdbbdb"
+      "id": "ac55",
+      "title": "Harmonies of the Cosmos",
+      "description": "Delve into the harmonious symphony of stardust as we explore the interconnected rhythms of the cosmos."
     },
     {
-      "id": "b5bf",
-      "title": "gbgfb",
-      "description": "ngnghn"
+      "id": "6760",
+      "title": "Journey to the Edge of Time\"",
+      "description": "Embark on an epic odyssey through time and space, where the mysteries of the universe unfold before your eyes."
+    },
+    {
+      "id": "ced1",
+      "title": "Exploring the Cosmic Imagination",
+      "description": " Journey into the depths of the cosmic imagination, where dreams become reality amidst the vast expanse of the universe.\n\n"
     }
   ]
 }

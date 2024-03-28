@@ -79,7 +79,7 @@ const Signup = () => {
       setTimeout(() => {
         setSuccess(false);
         setSubmitted(false);
-        navigate("/");
+        // navigate("/");
       }, 1000);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -88,7 +88,7 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     if (name === "name") {
       const regex = /^[a-zA-Z\s]*$/;
       if (regex.test(value) || value === "") {
@@ -108,13 +108,11 @@ const Signup = () => {
     } else {
       setData({ ...data, [name]: value });
     }
-  
 
     if (submitted) {
       setSubmitted(false);
     }
   };
-  
 
   useEffect(() => {
     if (pswd.length >= 8 && cpswd === pswd) {
@@ -188,7 +186,6 @@ const Signup = () => {
                       Please enter your password.
                     </div>
                   )}
-                  
                 </div>
                 <div className="mb-3">
                   <label htmlFor="confirmPassword" className="form-label">

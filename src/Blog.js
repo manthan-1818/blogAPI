@@ -159,10 +159,10 @@ const Blog = () => {
   return (
     <>
       <NavComponent />
-      <Row className="justify-content-center">
+      <Row className="justify-content-center" style={{ overflow: 'hidden', width:'100%'}}>
         <Col>
           <header className="text-center mb-4">
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center" >
               <div className="flex-grow-1 text-center mt-2">
                 <h3>Blog App in React</h3>
               </div>
@@ -179,7 +179,7 @@ const Blog = () => {
               )}
             </div>
           </header>
-          <div className="ag-theme-alpine" style={{ height: "500px" }}>
+          <div className="ag-theme-alpine" style={{ height: "500px"}}>
             <AgGridReact columnDefs={columnDefs} rowData={blog} />
           </div>
         </Col>
