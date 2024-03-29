@@ -1,66 +1,6 @@
 {
   "users": [
     {
-      "id": "ea80",
-      "name": "manthan",
-      "email": "m@gmail.comm",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "mmmmmmmm",
-      "cpswd": "mmmmmmmm",
-      "role": "Admin"
-    },
-    {
-      "id": "dc90",
-      "name": "ug",
-      "email": "ug@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "uuuuuuuu",
-      "cpswd": "uuuuuuuu",
-      "role": "User"
-    },
-    {
-      "id": "b4c6",
-      "name": "tu",
-      "email": "tu@gmail.com",
-      "contact": "09104481818",
-      "state": "Gujarat",
-      "pswd": "tttttttt",
-      "cpswd": "tttttttt",
-      "role": "User"
-    },
-    {
-      "id": "9dac",
-      "name": "w",
-      "email": "w@gmail.com",
-      "contact": "",
-      "state": "",
-      "pswd": "wwwwwwww",
-      "cpswd": "wwwwwwww",
-      "role": "Admin"
-    },
-    {
-      "id": "81e5",
-      "name": "manthan",
-      "email": "ma@gmail.com",
-      "contact": "",
-      "state": "",
-      "pswd": "mmmmmmmm",
-      "cpswd": "mmmmmmmm",
-      "role": "Admin"
-    },
-    {
-      "id": "7cb1",
-      "name": "dvd",
-      "email": "d@gmail.com",
-      "contact": "",
-      "state": "",
-      "pswd": "ddddddddd",
-      "cpswd": "dddddddd",
-      "role": "Admin"
-    },
-    {
       "id": "7c9e",
       "name": "manthan",
       "email": "ma@gmail.com",
@@ -68,7 +8,7 @@
       "state": "",
       "pswd": "Manthan1",
       "cpswd": "Manthan1",
-      "role": "User"
+      "role": "Admin"
     },
     {
       "id": "b482",
@@ -90,16 +30,7 @@
       "cpswd": "Stavan11",
       "role": "User"
     },
-    {
-      "id": "17b1",
-      "name": "suhil",
-      "email": "suhil@gmail.com",
-      "contact": "",
-      "state": "",
-      "pswd": "Suhil111",
-      "cpswd": "Suhil111",
-      "role": "Admin"
-    },
+
     {
       "id": "84d5",
       "name": "mitesh",
@@ -118,6 +49,16 @@
       "state": "",
       "pswd": "Dhruval11",
       "cpswd": "Dhruval11",
+      "role": "User"
+    },
+    {
+      "id": "e6b7",
+      "name": "woooo",
+      "email": "wo@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Wooooooo1",
+      "cpswd": "Wooooooo1",
       "role": "User"
     }
   ],

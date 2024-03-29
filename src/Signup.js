@@ -17,11 +17,11 @@ const Signup = () => {
     state: "",
     pswd: "",
     cpswd: "",
-    role: "",
+    role: "User",
   });
 
   const [availableStates, setAvailableStates] = useState([]);
-  const [selectedRole, setSelectedRole] = useState("");
+  // const [selectedRole, setSelectedRole] = useState("");
   const [valid, setValid] = useState(false);
   const [pswd, setPswd] = useState("");
   const [cpswd, setCpswd] = useState("");
@@ -29,10 +29,10 @@ const Signup = () => {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
-  const handleRoleChange = (event) => {
-    setSelectedRole(event.target.value);
-    setData({ ...data, role: event.target.value });
-  };
+  // const handleRoleChange = (event) => {
+  //   setSelectedRole(event.target.value);
+  //   setData({ ...data, role: event.target.value });
+  // };
 
   const handleStateChange = (event) => {
     setData({
@@ -57,8 +57,10 @@ const Signup = () => {
         !data.name ||
         !data.email ||
         !data.pswd ||
-        !data.cpswd ||
-        !data.role
+        !data.cpswd 
+        // ||
+        // !data.role
+
       ) {
         setSubmitted(true);
         console.error("Please fill in all required fields.");
@@ -73,7 +75,7 @@ const Signup = () => {
         state: "",
         pswd: "",
         cpswd: "",
-        role: "",
+        role: "User",
       });
       setSuccess(true);
       setTimeout(() => {
@@ -232,7 +234,7 @@ const Signup = () => {
                   />
                 </div>
 
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label htmlFor="role" className="form-label">
                     Role
                   </label>
@@ -249,7 +251,7 @@ const Signup = () => {
                       </option>
                     ))}
                   </select>
-                </div>
+                </div> */}
                 {success && (
                   <div className="alert alert-success" role="alert">
                     Registration successful!
