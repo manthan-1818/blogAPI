@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./Signup.css";
+// import "./Signup.css";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 const roles = [
   { id: 1, name: "User" },
@@ -21,18 +22,12 @@ const Signup = () => {
   });
 
   const [availableStates, setAvailableStates] = useState([]);
-  // const [selectedRole, setSelectedRole] = useState("");
   const [valid, setValid] = useState(false);
   const [pswd, setPswd] = useState("");
   const [cpswd, setCpswd] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-
-  // const handleRoleChange = (event) => {
-  //   setSelectedRole(event.target.value);
-  //   setData({ ...data, role: event.target.value });
-  // };
 
   const handleStateChange = (event) => {
     setData({
@@ -57,17 +52,14 @@ const Signup = () => {
         !data.name ||
         !data.email ||
         !data.pswd ||
-        !data.cpswd 
-        // ||
-        // !data.role
-
+        !data.cpswd
       ) {
         setSubmitted(true);
         console.error("Please fill in all required fields.");
         return;
       }
 
-      const response = await axios.post("http://localhost:3001/users", data);
+      const response = await axiosInstance.post("submit/register", data);
       setData({
         name: "",
         email: "",
@@ -81,7 +73,7 @@ const Signup = () => {
       setTimeout(() => {
         setSuccess(false);
         setSubmitted(false);
-        // navigate("/");
+        
       }, 1000);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -138,13 +130,20 @@ const Signup = () => {
                   </label>
                   <input
                     type="text"
-                    className="form-control"
+                    className={`form-control ${
+                      submitted && !data.name ? "is-invalid" : ""
+                    }`}
                     id="name"
                     name="name"
                     placeholder="Enter Full Name"
                     value={data.name}
                     onChange={handleChange}
                   />
+                  {submitted && !data.name && (
+                    <div className="invalid-feedback">
+                      Please enter your full name.
+                    </div>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email" style={{ color: "black" }}>
@@ -233,25 +232,6 @@ const Signup = () => {
                     value={data.state}
                   />
                 </div>
-
-                {/* <div className="mb-3">
-                  <label htmlFor="role" className="form-label">
-                    Role
-                  </label>
-                  <select
-                    className="form-control"
-                    id="role"
-                    value={selectedRole}
-                    onChange={handleRoleChange}
-                  >
-                    <option value="">Select Role</option>
-                    {roles.map((role) => (
-                      <option key={role.id} value={role.name}>
-                        {role.name}
-                      </option>
-                    ))}
-                  </select>
-                </div> */}
                 {success && (
                   <div className="alert alert-success" role="alert">
                     Registration successful!

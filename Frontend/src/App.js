@@ -1,11 +1,11 @@
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./Login.js";
-import Signup from "./Signup.js";
-import Dashboard from './Dashboard';
-import Blog from './Blog';
+import Login from "./Components/Login.js";
+import Signup from "./Components/Signup.js";
+import Dashboard from './Components/Dashboard';
+import Blog from './Components/Blog.js';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./Navbar.css"
+// import "./Navbar.css"
+// import "./App.css";
 
 function App() {
   return (

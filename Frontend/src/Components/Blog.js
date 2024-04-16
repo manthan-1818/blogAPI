@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+// import axiosInstance from "./utils/axiosInstance";
 import {
   Col,
   Row,
@@ -111,7 +112,7 @@ const Blog = () => {
   };
 
   const editButtonRenderer = (params) => {
-    if (userRole === "Admin") {
+    if (userRole !== "Admin") {
       return (
         <>
           <Button
@@ -148,7 +149,7 @@ const Blog = () => {
     },
   ];
 
-  if (!userRole) {
+  if (userRole) {
     columnDefs.pop();
   }
 
@@ -159,14 +160,17 @@ const Blog = () => {
   return (
     <>
       <NavComponent />
-      <Row className="justify-content-center" style={{ overflow: 'hidden', width:'100%'}}>
+      <Row
+        className="justify-content-center"
+        style={{ overflow: "hidden", width: "100%" }}
+      >
         <Col>
           <header className="text-center mb-4">
-            <div className="d-flex justify-content-between align-items-center" >
+            <div className="d-flex justify-content-between align-items-center">
               <div className="flex-grow-1 text-center mt-2">
                 <h3>Blog App in React</h3>
               </div>
-              {userRole === "Admin" ? (
+              {userRole !== "Admin" ? (
                 <Button
                   variant="primary"
                   onClick={handleShowAddModal}
@@ -179,7 +183,7 @@ const Blog = () => {
               )}
             </div>
           </header>
-          <div className="ag-theme-alpine" style={{ height: "500px"}}>
+          <div className="ag-theme-alpine" style={{ height: "500px" }}>
             <AgGridReact columnDefs={columnDefs} rowData={blog} />
           </div>
         </Col>
