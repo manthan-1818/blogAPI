@@ -3,10 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
-
 // import "./Login.css";
 
 const Login = () => {
+  const [name, setName] = useState("");
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -36,14 +36,14 @@ const Login = () => {
     try {
       const response = await axiosInstance.post(`/submit/login`, credentials);
       console.log("res", response.data);
-      const { success, message, name, email } = response.data;
-      const token = response.data.token;
-      sessionStorage.setItem('token', token);
+      const { success, message, accessToken, refreshToken, user } = response.data;
 
-      if(success){
-
-        sessionStorage.setItem('name', name);
-        sessionStorage.setItem('email', email);
+      sessionStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+  
+      if (success) {
+        localStorage.setItem("user", JSON.stringify(user));
+        setName(user.name);
         navigate("/dashboard");
       }else{
         return "Login failed: " + message;
@@ -53,36 +53,30 @@ const Login = () => {
       setError("An error occurred while logging in");
     }
   };
-  
-    //   const response = await axios.get("http://localhost:3001/users");
-    //   const users = response.data;
-    //   let found = false;
-    //   for (let i = 0; i < users.length; i++) {
-    //     if (
-    //       users[i].email === credentials.email &&
-    //       users[i].pswd === credentials.password
-    //     ) {
-    //       const data = {
-    //         name: users[i].name,
-    //         email: users[i].email,
-    //         contact: users[i].contact,
-    //         state: users[i].state,
-    //         role: users[i].role
-    //       };
-    //       localStorage.setItem("userRole", data.role);
-    //       navigate("/dashboard");
-    //       found = true;
-    //       break;
-    //     }
-    //   }
-    //   if (!found) {
-    //     setError("Invalid email or password");
-    //   }
-    // } catch (error) {
-    //   console.error("Login failed", error);
-    //   setError("An error occurred while logging in");
-    // }
 
+
+//   try {
+//     const response = await axiosInstance.post(`/submit/login`, credentials);
+//     console.log("res", response.data);
+//     const { success, message, name, email } = response.data;
+//     const token = response.data.token;
+//     sessionStorage.setItem('token', token);
+
+//     if(success){
+
+//       sessionStorage.setItem('name', name);
+//       sessionStorage.setItem('email', email);
+//       navigate("/dashboard");
+//     }else{
+//       return "Login failed: " + message;
+//     }
+//   } catch (error) {
+//     console.error("Login failed", error);
+//     setError("An error occurred while logging in");
+//   }
+// };
+  
+   
   return (
     <div className="container-fluid">
       <h1 className="text-danger text-center mb-4">CRUD APP</h1>
@@ -149,3 +143,5 @@ const Login = () => {
 };
 
 export default Login;
+
+
