@@ -7,6 +7,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Modal, Button, Form, Col } from "react-bootstrap";
 import NavComponent from "./Navbar.js";
+import axiosInstance from "../utils/axiosInstance.js";
 
 const Dashboard = () => {
   const [confirmedLogout, setConfirmedLogout] = useState(false);
@@ -19,19 +20,19 @@ const Dashboard = () => {
 
   const userRole = localStorage.getItem("userRole");
 
-  useEffect(() => {
-    const storedUserData = JSON.parse(localStorage.getItem("users"));
-    if (storedUserData) {
-      setUserData(storedUserData);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUserData = JSON.parse(localStorage.getItem("users"));
+  //   if (storedUserData) {
+  //     setUserData(storedUserData);
+  //   }
+  // }, []);
 
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/users");
+        const response = await axiosInstance.get("/submit/userdata");
         setUsers(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

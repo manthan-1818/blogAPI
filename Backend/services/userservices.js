@@ -19,27 +19,6 @@ const userService = {
     }
   },
 
-  //   login: async (userData) => {
-  //     try {
-  //       const user = await User.findOne(userData.email);
-  //    console.log("user",user)
-  //       if (user) {
-  //         console.log("--------------------",user.name);
-  //         return {
-  //           success: true,
-  //           message: "Login successful",
-  //           name: user.name,
-  //           email: user.email,
-  //         };
-  //       } else {
-  //         return { success: true, message: "Login fail" };
-  //       }
-  //     } catch (e) {
-  //       return e;
-  //     }
-  //   },
-  // };
-
   login: async (userData) => {
     try {
       console.log("Login userData:", userData);
@@ -49,12 +28,13 @@ const userService = {
       if (!user) {
         return { success: false, message: "Login failed" };
       }
-      const decryptedPassword = CryptoJS.AES.decrypt(
-        user.password,
-        secretKey
-      ).toString(CryptoJS.enc.Utf8);
+      // const decryptedPassword = CryptoJS.AES.decrypt(
+      //   user.password,
+      //   secretKey
+      // ).toString(CryptoJS.enc.Utf8);
 
-      if (decryptedPassword === userData.password) {
+      if (user.password === userData.pswd) {
+        console.log("hello inside password");
         return {
           success: true,
           message: "Login successful",

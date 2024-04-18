@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const jwtKey = process.env.JWT_SECRET_KEY;
+const jwtSecretKey = process.env.JWT_SECRET_KEY;
 const userService = require("../services/userservices");
 const jwtRefreshSecretKey = process.env.JWT_REFRESH_SECRET;
 const userController = {
@@ -23,38 +23,44 @@ const userController = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
       console.log(email, password);
       const userData = await userService.login({ email, password });
-      
       if (userData.success) {
         // Generate access token
-        const expiresIn = "15s"; // Adjust the expiration time as needed
-        const accessToken = jwt.sign(userData, jwtSecretKey, {
+        // const accessToken = jwt.sign({ email: userData.email }, jwtSecretKey, {
+        //   expiresIn: "10s", // Adjust the expiration time as needed
+        // });
+
+        const expiresIn = "10 s";
+        const email = userData.user.email;
+        const accessToken = jwt.sign({ email }, jwtSecretKey, {
           expiresIn,
         });
         const expirationTime =
           Math.floor(Date.now() / 1000) + jwt.decode(accessToken).exp;
         console.log(
           "Access token expiration time:",
-          new Date(expirationTime * 1000)
-        ); // Log expiration time
+          new Date(expirationTime * 1000).toLocaleString()
+        );
+
         // Generate refresh token
-        const refreshToken = jwt.sign({ email: userData.email }, jwtSecretKey);
-        
-        // Store tokens in localStorage
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        
+        const refreshToken = jwt.sign(
+          { email: userData.email },
+          jwtRefreshSecretKey,
+          {
+            expiresIn: "300s", // Adjust the expiration time as needed
+          }
+        );
         res.status(200).json({
           success: true,
           message: userData.message,
           accessToken,
           refreshToken,
           user: userData.user,
-          expiresIn,
         });
       } else {
         const { message } = userData;
@@ -65,6 +71,7 @@ const userController = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+
   getUserData: async (req, res) => {
     try {
       const userData = await userService.getUserData();
@@ -77,20 +84,20 @@ const userController = {
 
   refreshToken: (req, res) => {
     const refreshToken = req.headers["refresh-token"];
-
-    if (!refreshToken) {
-      return res.status(400).json({ message: "Refresh token is missing" });
-    }
-
+    console.log("inside refreshToken", refreshToken);
     try {
-      const decoded = jwt.verify(refreshToken, jwtRefreshSecretKey);
+      const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
       const newAccessToken = jwt.sign(
-        { userId: decoded.userId },
-        jwtSecretKey,
-        { expiresIn: "15m" } // Adjust the expiration time as needed
+        { email: decoded.email },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "60s" }
       );
 
-      res.status(200).json({ accessToken: newAccessToken });
+      // Send the new access token in the response
+      return res.status(200).json({
+        message: "Access token refreshed successfully",
+        accessToken: newAccessToken,
+      });
     } catch (error) {
       if (error.name === "TokenExpiredError") {
         return res.status(401).json({ message: "Refresh token has expired" });
@@ -101,6 +108,6 @@ const userController = {
         return res.status(500).json({ message: "Internal server error" });
       }
     }
-  }
+  },
 };
 module.exports = userController;

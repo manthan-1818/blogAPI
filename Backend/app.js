@@ -13,7 +13,7 @@ database();
 app.use(express.json());
 app.use(cors({ origin: corsApi }));
 app.use("/submit", userroutes);
-app.use("/refresh", userRoutes);
+app.use("/refresh", userroutes);
 app.use("/", (req, res) => {
   res.send("first API")
 });

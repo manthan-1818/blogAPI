@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
-// import "./Login.css";
 
 const Login = () => {
-  const [name, setName] = useState("");
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -26,27 +23,26 @@ const Login = () => {
     e.preventDefault();
     if (!credentials.email) {
       setEmailError("Email is required");
+      return;
     }
     if (!credentials.password) {
       setPasswordError("Password is required");
-    }
-    if (!credentials.email || !credentials.password) {
       return;
     }
     try {
-      const response = await axiosInstance.post(`/submit/login`, credentials);
+      const response = await axiosInstance.post("/submit/login", credentials);
       console.log("res", response.data);
-      const { success, message, accessToken, refreshToken, user } = response.data;
-
-      sessionStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-  
+      const { success, message, accessToken, refreshToken, user } =
+        response.data;
+      console.log("-----access---", accessToken);
+      console.log("---refresh-----", refreshToken);
       if (success) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("user", JSON.stringify(user));
-        setName(user.name);
         navigate("/dashboard");
-      }else{
-        return "Login failed: " + message;
+      } else {
+        setError("Login failed: " + message);
       }
     } catch (error) {
       console.error("Login failed", error);
@@ -54,29 +50,6 @@ const Login = () => {
     }
   };
 
-
-//   try {
-//     const response = await axiosInstance.post(`/submit/login`, credentials);
-//     console.log("res", response.data);
-//     const { success, message, name, email } = response.data;
-//     const token = response.data.token;
-//     sessionStorage.setItem('token', token);
-
-//     if(success){
-
-//       sessionStorage.setItem('name', name);
-//       sessionStorage.setItem('email', email);
-//       navigate("/dashboard");
-//     }else{
-//       return "Login failed: " + message;
-//     }
-//   } catch (error) {
-//     console.error("Login failed", error);
-//     setError("An error occurred while logging in");
-//   }
-// };
-  
-   
   return (
     <div className="container-fluid">
       <h1 className="text-danger text-center mb-4">CRUD APP</h1>
@@ -122,7 +95,9 @@ const Login = () => {
                   value={credentials.password}
                   onChange={handleChange}
                 />
-                {passwordError && <div className="text-danger">{passwordError}</div>}
+                {passwordError && (
+                  <div className="text-danger">{passwordError}</div>
+                )}
               </div>
               {error && <div className="text-danger mb-3">{error}</div>}
               <button type="submit" className="btn btn-dark mt-3">
@@ -132,7 +107,7 @@ const Login = () => {
                 Don't have an account?
               </p>
               <Link to="/signup" className="text-dark text-sm">
-                Sign up 
+                Sign up
               </Link>
             </form>
           </div>
@@ -143,5 +118,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
