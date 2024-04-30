@@ -7,6 +7,7 @@ import axios from "axios";
 // import Blog from '../jsx/Blog';
 
 
+
 const ReadBlog = () => {
     const {_id} = useParams();
     console.log("blod id", _id);
