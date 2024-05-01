@@ -2,6 +2,7 @@ const express = require("express");
 const database = require("./connections/connection");
 const cors = require("cors");
 const userroutes = require('./routes/userroutes');
+const blogroutes = require("./routes/userroutes");
 require('dotenv').config();
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cors({ origin: corsApi }));
 app.use("/submit", userroutes);
 app.use("/refresh", userroutes);
+app.use("/blogs", blogroutes);
 app.use("/", (req, res) => {
   res.send("first API")
 });
