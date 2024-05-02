@@ -21,7 +21,7 @@ const Blog = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [blog, setBlog] = useState([]);
-  const [userBlogs, setUserBlogs] = useState([]);
+  // const [userBlogs, setUserBlogs] = useState([]);
   const userRole = localStorage.getItem("userRole");
 
   const [formData, setFormData] = useState({
@@ -31,11 +31,11 @@ const Blog = () => {
     image: null,
   });
 
-    const [blogData, setBlogData] = useState({
-    title: "",
-    file: null,
-    description: "",
-  });
+  //   const [blogData, setBlogData] = useState({
+  //   title: "",
+  //   file: null,
+  //   description: "",
+  // });
 
   const [deleteId, setDeleteId] = useState("");
 
@@ -70,34 +70,20 @@ const Blog = () => {
 
   const handleSubmitAdd = async (e) => {
     e.preventDefault();
-
+    if (!formData.title || !formData.description) {
+      return;
+    }
     try {
-      const formData = new FormData();
-      formData.append("title", blogData.title);
-      formData.append("description", blogData.description);
-      formData.append("file", blogData.file);
-      // formData.append("user_id", blogData.user_id); 
-      const response = await axios.post("http://localhost:4000/blogs/writeblog", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log("Response:", response.data);
-      alert("Blog added successfully!");
-
-      setBlogData({
-        title: "",
-        file: null,
-        description: "",
-        // Reset user_id after submission
-      });
+      const response = await axios.post(
+        `http://localhost:5000/submit/addblog`,
+        formData
+      );
+      setBlog([...blog, response.data]);
+      setShowAddModal(false);
     } catch (error) {
       console.error("Error adding blog:", error);
-      alert("Something went wrong!");
     }
   };
-
   const handleShowUpdateModal = (params) => {
     const id = params.data.id;
     const matchedBlog = blog.find((blog) => blog.id === id);
@@ -162,25 +148,6 @@ const Blog = () => {
       return null;
     }
   };
-  useEffect(() => {
-    // const fetchUserBlogs = async () => {
-    //   try {
-    //     const user_id = sessionStorage.getItem("user_id");
-    //     const response = await axios.get(
-    //       `http://localhost:4000/api/blogs/userblog?user_id=${user_id}`
-    //     );
-
-    //     if (response.data) {
-    //       setUserBlogs(response.data);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching user blogs:", error);
-    //   }
-    // };
-
-    // fetchUserBlogs();
-  }, []);
-
   const columnDefs = [
     { headerName: "ID", field: "id", width: 100 },
     {
@@ -188,17 +155,10 @@ const Blog = () => {
       field: "title",
       flex: 1,
       cellRenderer: (params) => {
-        const userBlog = userBlogs.find(blog => blog.id === params.data.id);
-        if (userBlog) {
-          return (
-            <Link to={`/your-route-here/${params.data.id}`}>{params.value}</Link>
-          );
-        } else {
-          return params.value; 
-        }
+        const { id } = params.data;
+        return <Link to={`/blog/blogpreview/?_id=${id}`}>{params.value}</Link>;
       },
     },
-   
     { headerName: "Description", field: "description", flex: 1 },
     {
       headerName: "Actions",
@@ -208,7 +168,7 @@ const Blog = () => {
       resizable: false,
     },
   ];
-  
+
   if (userRole) {
     columnDefs.pop();
   }

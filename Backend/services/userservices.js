@@ -1,5 +1,6 @@
 const User = require("../models/usermodels");
 const jwtKey = process.env.JWT_SECRET_KEY;
+const Blog = require('../models/blogmodels');
 const userService = {
   register: async (userData) => {
     try {
@@ -55,6 +56,27 @@ const userService = {
       return getUserData;
     } catch (error) {
       console.log("getting User Data error ", error);
+      throw error;
+    }
+  },
+
+  addblog: async (blogData, file) => {
+    try {
+      const { title, description, user_id } = blogData;
+
+      const newBlog = await Blog.create({
+        title,
+        description,
+        // user_id,
+        // filename: file.originalname,
+        // contentType: file.mimetype,
+        // file: file.buffer, // Store the file data directly in the 'file' field
+      });
+
+      // console.log("Blog created:", newBlog);
+      return newBlog;
+    } catch (error) {
+      console.error("Error creating blog:", error);
       throw error;
     }
   },

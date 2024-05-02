@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-// import Sidebar from "./Sidebar";
 import { Link, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import axios from "axios";
-// import Blog from '../jsx/Blog';
 
 const Preview = () => {
   const { _id } = useParams();
   console.log("blod id", _id);
-  const [blogData, setBlogData] = useState({ title: "", discription: "" });
+  const [blogData, setBlogData] = useState({ title: "", description: "" });
   useEffect(() => {
     const getData = async () => {
       try {
@@ -57,9 +55,9 @@ const Preview = () => {
             />
           </div>
           <div className="col-sm-6">
-            <h5>Discription:</h5>
+            <h5>Description:</h5>
             <br />
-            <p>{blogData.discription}</p>
+            <p>{blogData.description}</p>
           </div>
         </div>
       </div>
@@ -67,4 +65,4 @@ const Preview = () => {
   );
 };
 
-export default Preview ;
+export default Preview;

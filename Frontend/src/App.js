@@ -4,8 +4,6 @@ import Signup from "./Components/Signup.js";
 import Dashboard from './Components/Dashboard';
 import Blog from './Components/Blog.js';
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "./Navbar.css"
-// import "./App.css";
 
 function App() {
   return (
