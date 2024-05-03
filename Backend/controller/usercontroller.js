@@ -108,22 +108,6 @@ const userController = {
       }
     }
   },
-  addblog: async (req, res) => {
-    try {
-      const { title, description, user_id } = req.body;
-      const file = req.file;
 
-      const addblog = await userService.addblog(
-        { title, description, user_id },
-        file
-      );
-      res.status(201).json({ message: "Blog added", addblog });
-    } catch (e) {
-      console.log("controller error", e);
-      res
-        .status(500)
-        .json({ message: "Something went wrong", error: e.message });
-    }
-  },
 };
 module.exports = userController;

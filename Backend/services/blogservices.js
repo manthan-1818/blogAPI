@@ -1,115 +1,78 @@
-// const Blog = require("../models/blogmodels");
+const { preview } = require("../controller/blogcontroller");
+const Blog = require("../models/blogmodels");
 
-// const blogService = {
-//   writeblog: async (blogData, file) => {
-//     try {
-//       const { title, discription, user_id } = blogData;
+const blogService = {
+  preview: async () => {
+    try {
 
-//       const newBlog = await Blog.create({
-//         title,
-//         discription,
-//         user_id,
-//         filename: file.originalname,
-//         contentType: file.mimetype,
-//         file: file.buffer, // Store the file data directly in the 'file' field
-//       });
+      const blogData = await Blog.find({});
 
-//       // console.log("Blog created:", newBlog);
-//       return newBlog;
-//     } catch (error) {
-//       console.error("Error creating blog:", error);
-//       throw error;
-//     }
-//   },
+      const blogsWithImageData = blogData.map((blog) => {
+        return {
+          _id: blog._id,
+          title: blog.title,
+          description: blog.description,
+        //   filename: blog.filename,
+        //   contentType: blog.contentType,
+        //   imageData: blog.file.toString("base64"),
+        //   date: blog.date,
+        };
+      });
 
-//   preview: async () => {
-//     try {
-//       // Query all blog documents from the database
-//       const blogData = await Blog.find({});
+      return blogsWithImageData;
+    } catch (error) {
+      console.error("Error reading blogs:", error);
+      throw error;
+    }
+  },
 
-//       // Map over each blog document to format and include image data
-//       const blogsWithImageData = blogData.map((blog) => {
-//         return {
-//           _id: blog._id,
-//           title: blog.title,
-//           discription: blog.discription,
-//           user_id: blog.user_id,
-//           filename: blog.filename,
-//           contentType: blog.contentType,
-//           // Convert binary image data to Base64 string
-//           imageData: blog.file.toString("base64"),
-//           date: blog.date,
-//           // __v: blog.__v,
-//         };
-//       });
+  addblog: async (blogData, file) => {
+    try {
+      const { title, description } = blogData;
 
-//       return blogsWithImageData;
-//     } catch (error) {
-//       console.error("Error fetching blog data:", error);
-//       throw error;
-//     }
-//   },
-//   userblog: async (user_id) => {
-//     try {
-//       const userBlogs = await Blogg.find({ user_id }).select(
-//         "title discription"
-//       );
-//       return userBlogs;
-//     } catch (error) {
-//       throw error;
-//     }
-//   },
-//   blogread: async (_id) => {
-//     try {
-//       // Find the blog document by its _id
-//       const blog = await Blog.findById(_id);
+      if (!file) {
+        throw new Error("No file received");
+      }
 
-//       if (!blog) {
-//         throw new Error("Blog not found");
-//       }
+      const newBlog = await Blog.create({
+        title,
+        description,
+        filename: file.originalname,
+        contentType: file.mimetype,
+        file: file.buffer,
+      });
 
-//       // Convert binary image data to Base64 string
-//       const imageData = blog.file.toString("base64");
+      return newBlog;
+    } catch (error) {
+      console.error("Error creating blog:", error);
+      throw error;
+    }
+  },
+  readblog: async()=>{
+    try{
+        const blogData = await Blog.find({});
+        const blogsWithImageData = blogData.map((blog) => {
+            return {
+              _id: blog._id,
+              title: blog.title,
+              description: blog.description,
+            //   user_id: blog.user_id,
+            //   filename: blog.filename,
+            //   contentType: blog.contentType,
+              // Convert binary image data to Base64 string
+            //   imageData: blog.file.toString("base64"),
+            //   date: blog.date,
+              // __v: blog.__v,
+            };
+          });
+    console.log("big",blogsWithImageData)
+          return blogsWithImageData;
 
-//       // Return the transformed blog data object
-//       return {
-//         _id: blog._id,
-//         title: blog.title,
-//         discription: blog.discription, // assuming the field name is 'description'
-//         user_id: blog.user_id,
-//         filename: blog.filename,
-//         contentType: blog.contentType,
-//         imageData: imageData,
-//         date: blog.date,
-//       };
-//     } catch (error) {
-//       throw error;
-//     }
-//   },
-//   deleteblog: async (_id) => {
-//     try {
-//       const deleteblog = await Blog.findByIdAndDelete({ _id });
-//       return deleteblog;
-//     } catch (error) {
-//       throw error;
-//     }
-//   },
-//   updateblog: async (updateblog) => {
-//     try {
-//       console.log("aaaaaaaaa", updateblog);
-//       const _id = updateblog._id;
-//       const updatedblog = await Blogg.findByIdAndUpdate(
-//         { _id },
-//         {
-//           title: updateblog.title,
-//           discription: updateblog.discription,
-//         }
-//       );
-//       return updatedblog;
-//     } catch (error) {
-//       return error;
-//     }
-//   },
-// };
+    }catch(e){
+        console.error("Error fetching blog data:", error);
+      throw error;
+    }
+  }
+};
 
-// module.exports = blogService;
+module.exports = blogService;

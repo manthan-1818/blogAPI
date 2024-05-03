@@ -6,18 +6,19 @@ import axios from "axios";
 
 const Preview = () => {
   const { _id } = useParams();
-  console.log("blod id", _id);
+  console.log("blog id", _id);
   const [blogData, setBlogData] = useState({ title: "", description: "" });
   useEffect(() => {
     const getData = async () => {
       try {
+        console.log("inside the preview");
         const response = await axios.get(
-          `http://localhost:3000/blog/blogpreview/?_id=${_id}`
+          `http://localhost:5000/blog/preview/?_id=${_id}`
         );
-
+        console.log("blog data", response.data);
         setBlogData(response.data);
       } catch (e) {
-        return e;
+        console.error("Error fetching data:", e);
       }
     };
     getData();

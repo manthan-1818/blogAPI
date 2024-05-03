@@ -5,7 +5,10 @@ const blogSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now,
-  }
+  },
+  filename: String,
+  contentType: String,
+  file: Buffer 
 });
 
 const blogModel = mongoose.model("Blog", blogSchema);

@@ -59,26 +59,5 @@ const userService = {
       throw error;
     }
   },
-
-  addblog: async (blogData, file) => {
-    try {
-      const { title, description, user_id } = blogData;
-
-      const newBlog = await Blog.create({
-        title,
-        description,
-        // user_id,
-        // filename: file.originalname,
-        // contentType: file.mimetype,
-        // file: file.buffer, // Store the file data directly in the 'file' field
-      });
-
-      // console.log("Blog created:", newBlog);
-      return newBlog;
-    } catch (error) {
-      console.error("Error creating blog:", error);
-      throw error;
-    }
-  },
 };
 module.exports = userService;
