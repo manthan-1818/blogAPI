@@ -26,9 +26,11 @@ const blogController = {
   },
   preview: async (req, res) => {
     try {
-        const {_id} = res.body;
-      const blogData = await blogService.preview(_id);
-      console.log("Blog data:", blogData);
+        // const {_id} = res.body
+    const { _id } = req.query;
+    console.log("id",_id)
+    const blogData = await blogService.preview(_id);
+      // console.log("Blog data:", blogData);
       res.status(200).json(blogData);
     } catch (error) {
       console.error("Error fetching blog data:", error);

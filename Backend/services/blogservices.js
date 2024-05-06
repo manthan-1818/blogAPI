@@ -2,26 +2,27 @@ const { preview } = require("../controller/blogcontroller");
 const Blog = require("../models/blogmodels");
 
 const blogService = {
-  preview: async () => {
+  preview: async (_id) => {
     try {
+      const blog = await Blog.findById(_id);
 
-      const blogData = await Blog.find({});
+      if (!blog) {
+        throw new Error("Blog not found");
+      }
 
-      const blogsWithImageData = blogData.map((blog) => {
-        return {
-          _id: blog._id,
-          title: blog.title,
-          description: blog.description,
-        //   filename: blog.filename,
-        //   contentType: blog.contentType,
-        //   imageData: blog.file.toString("base64"),
-        //   date: blog.date,
-        };
-      });
+      const imageData = blog.file.toString("base64");
 
-      return blogsWithImageData;
+      return {
+        _id: blog._id,
+        title: blog.title,
+        description: blog.description,
+        user_id: blog.user_id,
+        filename: blog.filename,
+        contentType: blog.contentType,
+        imageData: imageData,
+        date: blog.date,
+      };
     } catch (error) {
-      console.error("Error reading blogs:", error);
       throw error;
     }
   },

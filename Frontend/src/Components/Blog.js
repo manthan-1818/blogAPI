@@ -149,7 +149,9 @@ const Blog = () => {
       flex: 1,
       cellRenderer: (params) => {
         const { _id } = params.data; 
-        return <Link to={`/preview/?id=${_id}`}>{params.value}</Link>;
+        console.log("ud",_id)
+        localStorage.setItem("_id", _id);
+        return <Link to={`/preview/id=${_id}`}>{params.value}</Link>;
       },
     },
     { headerName: "Description", field: "description", flex: 1 },

@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import axios from "axios";
 
 const Preview = () => {
-  const { _id } = useParams();
-  console.log("blog id", _id);
+  // Get _id from query parameters
+  const location = useLocation();
+  const { id } = useParams();
+  const queryParams = new URLSearchParams(location.search);
+  // const _id = localStorage.getItem("_id");
+  // const userID = localStorage.getItem(_id);  
+  // console.log("aaaaaaaaaaa", userID);
+  console.log("iiiiiiiiidddd", id);
+
   const [blogData, setBlogData] = useState({ title: "", description: "" });
+
   useEffect(() => {
     const getData = async () => {
       try {
-        console.log("inside the preview");
+        console.log("inside the preview", id);
         const response = await axios.get(
-          `http://localhost:5000/blog/preview/?_id=${_id}`
+          `http://localhost:5000/blog/preview/?_id=${id}`
         );
         console.log("blog data", response.data);
         setBlogData(response.data);
@@ -21,43 +29,44 @@ const Preview = () => {
         console.error("Error fetching data:", e);
       }
     };
-    getData();
-  }, [_id]);
+    if (id) {
+      getData();
+    }
+  }, [id]);
+
   return (
     <>
-      <div className="container-fluid">
-        <div className="row m-2">
-          <div className="col-sm-2 ">
-            <button className="btn btn-dark ">
-              <Link
-                to="/Blog"
-                id="lnk"
-                style={{ color: "white", textDecoration: "none" }}
-                className="pt-5"
-              >
-                <ChevronLeftIcon />
-                Black
-              </Link>
-            </button>
+      <div className="container mt-5">
+        {/* Header */}
+        <div className="row mb-4">
+          <div className="col-12">
+            <Link to="/Blog" className="btn btn-dark d-flex align-items-center">
+              <ChevronLeftIcon /> Back to Blog
+            </Link>
           </div>
-          <div className="col-sm-10">
+        </div>
+
+        {/* Title */}
+        <div className="row mb-4">
+          <div className="col-12">
             <h2>Title:</h2>
             <h3>{blogData.title}</h3>
           </div>
         </div>
-        <hr></hr>
 
+        <hr />
+
+        {/* Image and description */}
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-md-6 mb-4">
             <img
               src={`data:${blogData.contentType};base64,${blogData.imageData}`}
               alt={blogData.title}
-              style={{ height: "200px", objectFit: "cover" }}
+              className="img-fluid rounded"
             />
           </div>
-          <div className="col-sm-6">
+          <div className="col-md-6">
             <h5>Description:</h5>
-            <br />
             <p>{blogData.description}</p>
           </div>
         </div>

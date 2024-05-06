@@ -15,6 +15,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/Blog" element={<Blog />} />
         <Route path="/preview/:_id" element={<Preview />} />
+        
       </Routes>
     </Router>
   );
