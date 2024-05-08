@@ -59,5 +59,37 @@ const userService = {
       throw error;
     }
   },
+  updateUserData: async ({ id, name, email, password, role }) => {
+    try {
+      console.log("codfgretrtr",id,name)
+
+      let updateFields = {};
+      if (name) updateFields.name = name;
+      if (email) updateFields.email = email;
+      if (password) updateFields.password = password; 
+      if (role) updateFields.role = role;
+
+      const updatedUserData = await User.findByIdAndUpdate(
+        id,
+        updateFields,
+        { new: true } 
+      );
+
+      return updatedUserData;
+    } catch (error) {
+      console.error("Error updating user data:", error);
+      throw error;
+    }
+  },
+  deleteUserData: async (id) => {
+    try {
+      const deleteUserData = await User.findByIdAndDelete(id);
+      return deleteUserData;
+    } catch (error) {
+      console.log("getting blog Data error ", error);
+      throw error;
+    }
+  },
+  
 };
 module.exports = userService;

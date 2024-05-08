@@ -20,9 +20,7 @@ const Preview = () => {
     const getData = async () => {
       try {
         console.log("inside the preview", id);
-        const response = await axios.get(
-          `http://localhost:5000/blog/preview/?_id=${id}`
-        );
+        const response = await axios.get(`http://localhost:5000/blog/preview/${id}`);
         console.log("blog data", response.data);
         setBlogData(response.data);
       } catch (e) {
@@ -30,7 +28,7 @@ const Preview = () => {
       }
     };
     if (id) {
-      getData();
+      getData();      
     }
   }, [id]);
 

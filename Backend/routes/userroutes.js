@@ -6,13 +6,26 @@ const blogController = require("../controller/blogcontroller");
 const upload = require("../middleware/multer");
 // router.post('/login',userController.login);
 router.post('/register',userController.register);
+
 router.post('/login',userController.login);
+
 router.get('/userdata', authentication, userController.getUserData);
+
+router.patch("/updateData", userController.updateUserData);
+
+router.delete("/deleteData", userController.deleteUserData);
+
 router.get('/refreshtoken', userController.refreshToken);
-// router.post('/addblog',blogController.addblog);
+
 router.post("/addblog", upload.single("image"), blogController.addblog);
+
 router.get("/readblog",blogController.readblog);
-router.get("/preview", blogController.preview);
+
+router.get("/preview/:id", blogController.preview);
+
+router.delete("/deleteblog", blogController.deleteblog);
+
+router.patch("/updateblog", blogController.updateblog);
 
 module.exports = router;
  

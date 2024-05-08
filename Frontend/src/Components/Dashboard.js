@@ -61,7 +61,7 @@ const Dashboard = () => {
   };
 
   const editRow = async (id) => {
-    const user = users.find((user) => user.id === id);
+    const user = users.find((user) => user._id === id);
     setFormData(user);
     setId(id);
     setShow(true);
@@ -69,13 +69,18 @@ const Dashboard = () => {
 
   const deleteRow = async (userId) => {
     setUserToDelete(userId);
+    console.log("id1", userId);
     setShowDeleteModal(true);
   };
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3001/users/${userToDelete}`);
-      setUsers(users.filter((user) => user.id !== userToDelete));
+      await axios.delete(
+        `http://localhost:5000/userData/deleteUserData?id=${id}`
+      );
+
+      setUsers(users.filter((user) => user._id !== userToDelete));
+
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -98,11 +103,12 @@ const Dashboard = () => {
   };
 
   const actionsCellRenderer = (params) => {
+    console.log("patram", params.data._id);
     return (
       <div>
         <button
           className="btn btn-primary btn-sm"
-          onClick={() => editRow(params.data.id)}
+          onClick={() => editRow(params.data._id)}
         >
           Edit
         </button>{" "}
@@ -117,7 +123,7 @@ const Dashboard = () => {
   };
 
   const columnDefs = [
-    { headerName: "ID", field: "id", width: 100 },
+    { headerName: "ID", field: "_id", width: 100 },
     { headerName: "Name", field: "name", filter: true },
     { headerName: "Email", field: "email", filter: true },
     { headerName: "Role", field: "role", filter: true },
@@ -168,8 +174,14 @@ const Dashboard = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.put(`http://localhost:3001/users/${id}`, formData);
-      setUsers(users.map((user) => (user.id === id ? formData : user)));
+      console.log(id);
+      console.log(formData);
+      const update = await axios.patch(
+        `http://localhost:5000/submit/updateData?id=${id}`,
+        formData
+      );
+      // console.log("update data", update.data);
+      setUsers(users.map((user) => (user._id === id ? formData : user)));
       setShow(false);
     } catch (error) {
       console.error("Error updating user:", error);
