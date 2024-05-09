@@ -40,7 +40,9 @@ const Login = () => {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("user", JSON.stringify(user));
+        window.location.reload(); 
         navigate("/dashboard");
+        
       } else {
         setError("Login failed: " + message);
       }
@@ -101,7 +103,7 @@ const Login = () => {
               </div>
               {error && <div className="text-danger mb-3">{error}</div>}
               <button type="submit" className="btn btn-dark mt-3">
-                Submit
+                Login
               </button>
               <p style={{ color: "black", marginTop: "1rem" }}>
                 Don't have an account?

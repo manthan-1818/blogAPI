@@ -17,23 +17,32 @@ const Dashboard = () => {
   const [id, setId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
-
-  const userRole = localStorage.getItem("userRole");
-
   const [users, setUsers] = useState([]);
+  const [userRole, setUserRole] = useState(""); 
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/submit/userdata");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    fetchUserData();
+    const role = JSON.parse(localStorage.getItem("user"));
+    console.log("aaaaaaa",role.role);
+    console.log("bbbbbbb",role);
 
-    fetchData();
+    setUserRole(role);
   }, []);
+
+  useEffect(() => {
+    if (showDeleteModal) {
+      fetchUserData();
+    }
+  }, [showDeleteModal]);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axiosInstance.get("/submit/userdata");
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleLogout = () => {
     const result = window.confirm("Are you sure you want to log out?");
@@ -46,7 +55,7 @@ const Dashboard = () => {
   };
 
   const editButtonRenderer = (params) => {
-    if (userRole === "Admin") {
+    if (userRole.role !== "User") {
       return (
         <button
           className="btn btn-primary btn-sm"
@@ -69,19 +78,17 @@ const Dashboard = () => {
 
   const deleteRow = async (userId) => {
     setUserToDelete(userId);
-    console.log("id1", userId);
     setShowDeleteModal(true);
   };
-
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:5000/userData/deleteUserData?id=${id}`
+      const response = await axios.delete(
+        `http://localhost:5000/user/deleteUserData?id=${userToDelete}`
       );
-
-      setUsers(users.filter((user) => user._id !== userToDelete));
-
+      console.log("User deleted successfully:", response.data);
+      setUserData(userData.filter((user) => user._id !== userToDelete));
       setShowDeleteModal(false);
+      fetchUserData();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -95,35 +102,35 @@ const Dashboard = () => {
     return (
       <button
         className="btn btn-danger btn-sm"
-        onClick={() => deleteRow(params.data.id)}
+        onClick={() => deleteRow(params.data._id)}
       >
         Delete
       </button>
     );
   };
+//  {/* {userRole.role !== "User" && ( */}
+ const actionsCellRenderer = (params) => {
+  return (
+    <>
+      <button
+        className="btn btn-primary btn-sm"
+        onClick={() => editRow(params.data._id)}
+      >
+        Edit
+      </button>{" "}
+      <button
+        className="btn btn-danger btn-sm"
+        onClick={() => deleteRow(params.data._id)}
+      >
+        Delete
+      </button>
+    </>
+  );
+};
 
-  const actionsCellRenderer = (params) => {
-    console.log("patram", params.data._id);
-    return (
-      <div>
-        <button
-          className="btn btn-primary btn-sm"
-          onClick={() => editRow(params.data._id)}
-        >
-          Edit
-        </button>{" "}
-        <button
-          className="btn btn-danger btn-sm"
-          onClick={() => deleteRow(params.data.id)}
-        >
-          Delete
-        </button>
-      </div>
-    );
-  };
 
   const columnDefs = [
-    { headerName: "ID", field: "_id", width: 100 },
+    // { headerName: "ID", field: "id", width: 100 },
     { headerName: "Name", field: "name", filter: true },
     { headerName: "Email", field: "email", filter: true },
     { headerName: "Role", field: "role", filter: true },
@@ -133,7 +140,7 @@ const Dashboard = () => {
   ];
 
   const columnUser = [
-    { headerName: "ID", field: "id", width: 50 },
+    // { headerName: "ID", field: "id", width: 50 },
     { headerName: "Name", field: "name", filter: true },
     { headerName: "Email", field: "email", filter: true },
     { headerName: "Role", field: "role", filter: true },
@@ -199,7 +206,7 @@ const Dashboard = () => {
         </div>
         <div className="row">
           <div className="col">
-            {userRole !== "Admin" ? (
+            {userRole.role !== "User" ? (
               <div
                 className="ag-theme-alpine"
                 style={{ height: "500px", width: "100%" }}

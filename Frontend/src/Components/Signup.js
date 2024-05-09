@@ -27,6 +27,7 @@ const Signup = () => {
   const [cpswd, setCpswd] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
 
   const handleStateChange = (event) => {
@@ -41,19 +42,19 @@ const Signup = () => {
 
     try {
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-      if (!passwordRegex.test(data.pswd)) {
+      if (!data.pswd) {
+        setPasswordError("");
         setSubmitted(true);
-        console.error(
-          "Password must contain at least 8 characters including one uppercase letter, one lowercase letter, and one number."
-        );
         return;
       }
-      if (
-        !data.name ||
-        !data.email ||
-        !data.pswd ||
-        !data.cpswd
-      ) {
+      if (!passwordRegex.test(data.pswd)) {
+        setPasswordError(
+          "Password must contain at least 8 characters including one uppercase letter, one lowercase letter, and one number."
+        );
+        setSubmitted(true);
+        return;
+      }
+      if (!data.name || !data.email || !data.pswd || !data.cpswd) {
         setSubmitted(true);
         console.error("Please fill in all required fields.");
         return;
@@ -73,7 +74,7 @@ const Signup = () => {
       setTimeout(() => {
         setSuccess(false);
         setSubmitted(false);
-        
+        setPasswordError("");
       }, 1000);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -174,7 +175,7 @@ const Signup = () => {
                   <input
                     type="password"
                     className={`form-control ${
-                      submitted && !data.pswd ? "is-invalid" : ""
+                      submitted && (!data.pswd || passwordError) ? "is-invalid" : ""
                     }`}
                     id="password"
                     name="pswd"
@@ -182,9 +183,10 @@ const Signup = () => {
                     value={data.pswd}
                     onChange={handleChange}
                   />
-                  {submitted && !data.pswd && (
+                  {submitted && (!data.pswd || passwordError) && (
                     <div className="invalid-feedback">
-                      Please enter your password.
+                      {!data.pswd && "Please enter your password."}
+                      {passwordError && passwordError}
                     </div>
                   )}
                 </div>

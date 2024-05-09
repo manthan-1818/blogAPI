@@ -16,6 +16,7 @@ app.use("/submit", userroutes);
 app.use("/refresh", userroutes);
 app.use("/blog", userroutes);
 app.use("/user", userroutes);
+// app.use("/userData", userRoutes);
 app.use("/", (req, res) => {
   res.send("first API");
 });
@@ -23,8 +24,6 @@ app.use("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-
 
 
 

@@ -83,13 +83,12 @@ const userService = {
   },
   deleteUserData: async (id) => {
     try {
-      const deleteUserData = await User.findByIdAndDelete(id);
-      return deleteUserData;
+      const deletedUserData = await User.findByIdAndDelete(id);
+      return deletedUserData;
     } catch (error) {
-      console.log("getting blog Data error ", error);
+      console.error("Error deleting user data:", error);
       throw error;
     }
-  },
-  
+  }
 };
 module.exports = userService;

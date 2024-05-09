@@ -13,7 +13,7 @@ router.get('/userdata', authentication, userController.getUserData);
 
 router.patch("/updateData", userController.updateUserData);
 
-router.delete("/deleteData", userController.deleteUserData);
+router.delete("/deleteUserData", userController.deleteUserData);
 
 router.get('/refreshtoken', userController.refreshToken);
 

@@ -13,7 +13,7 @@ const userController = {
         contact,
         state,
         pswd,
-        role: "User", 
+        role: "User",
       });
       res
         .status(201)
@@ -30,7 +30,7 @@ const userController = {
       console.log(email, password);
       const userData = await userService.login({ email, password });
       if (userData.success) {
-        const expiresIn = "10s";
+        const expiresIn = "5m";
         const email = userData.user.email;
         const accessToken = jwt.sign({ email }, jwtSecretKey, {
           expiresIn,
@@ -47,7 +47,7 @@ const userController = {
           { email: userData.email },
           jwtRefreshSecretKey,
           {
-            expiresIn: "300s",
+            expiresIn: "15m",
           }
         );
         res.status(200).json({
@@ -88,7 +88,7 @@ const userController = {
 
       // Generate a new access token
       const newAccessToken = jwt.sign({ email: decoded.email }, jwtSecretKey, {
-        expiresIn: "60s",
+        expiresIn: "5m",
       });
 
       // Send the new access token in the response
@@ -112,7 +112,7 @@ const userController = {
     try {
       const { id } = req.query;
       const { name, email, password, role } = req.body;
-      console.log("cons",id,name)
+      console.log("cons", id, name);
       const updateUserData = await userService.updateUserData({
         id,
         name,
@@ -126,16 +126,20 @@ const userController = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
-  deleteUserData: async (req, res) => {
-    try {
-      const { id } = req.query;
-      console.log("cons",id)
-      const blogData = await userService.deleteUserData(id);
-      res.status(200).json(blogData);
-    } catch (error) {
-      console.error(`deleteUserdata controller error : ${error}`);
-      res.status(500).json({ error: "Internal server error" });
+
+    deleteUserData: async (req, res) => {
+      try {
+        const { id } = req.query;
+        console.log("Deleting user with ID:", id);
+  
+        const deletedUserData = await userService.deleteUserData(id);
+  
+        console.log("User deleted successfully:", deletedUserData);
+        res.status(200).json({ message: "User deleted successfully", deletedUserData });
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json({ error: "Internal server error" });
+      }
     }
-  },
-};
+  };
 module.exports = userController;
