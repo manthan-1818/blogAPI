@@ -17,30 +17,32 @@ const Dashboard = () => {
   const [id, setId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
-
-  const userRole = localStorage.getItem("userRole");
-
-  // useEffect(() => {
-  //   const storedUserData = JSON.parse(localStorage.getItem("users"));
-  //   if (storedUserData) {
-  //     setUserData(storedUserData);
-  //   }
-  // }, []);
-
   const [users, setUsers] = useState([]);
+  const [userRole, setUserRole] = useState(""); 
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/submit/userdata");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    fetchUserData();
+    const role = JSON.parse(localStorage.getItem("user"));
+    console.log("aaaaaaa",role.role);
+    console.log("bbbbbbb",role);
 
-    fetchData();
+    setUserRole(role);
   }, []);
+
+  useEffect(() => {
+    if (showDeleteModal) {
+      fetchUserData();
+    }
+  }, [showDeleteModal]);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axiosInstance.get("/submit/userdata");
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleLogout = () => {
     const result = window.confirm("Are you sure you want to log out?");
@@ -53,7 +55,7 @@ const Dashboard = () => {
   };
 
   const editButtonRenderer = (params) => {
-    if (userRole === "Admin") {
+    if (userRole.role !== "User") {
       return (
         <button
           className="btn btn-primary btn-sm"
@@ -68,7 +70,7 @@ const Dashboard = () => {
   };
 
   const editRow = async (id) => {
-    const user = users.find((user) => user.id === id);
+    const user = users.find((user) => user._id === id);
     setFormData(user);
     setId(id);
     setShow(true);
@@ -78,12 +80,15 @@ const Dashboard = () => {
     setUserToDelete(userId);
     setShowDeleteModal(true);
   };
-
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3001/users/${userToDelete}`);
-      setUsers(users.filter((user) => user.id !== userToDelete));
+      const response = await axios.delete(
+        `http://localhost:5000/user/deleteUserData?id=${userToDelete}`
+      );
+      console.log("User deleted successfully:", response.data);
+      setUserData(userData.filter((user) => user._id !== userToDelete));
       setShowDeleteModal(false);
+      fetchUserData();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -97,34 +102,35 @@ const Dashboard = () => {
     return (
       <button
         className="btn btn-danger btn-sm"
-        onClick={() => deleteRow(params.data.id)}
+        onClick={() => deleteRow(params.data._id)}
       >
         Delete
       </button>
     );
   };
+//  {/* {userRole.role !== "User" && ( */}
+ const actionsCellRenderer = (params) => {
+  return (
+    <>
+      <button
+        className="btn btn-primary btn-sm"
+        onClick={() => editRow(params.data._id)}
+      >
+        Edit
+      </button>{" "}
+      <button
+        className="btn btn-danger btn-sm"
+        onClick={() => deleteRow(params.data._id)}
+      >
+        Delete
+      </button>
+    </>
+  );
+};
 
-  const actionsCellRenderer = (params) => {
-    return (
-      <div>
-        <button
-          className="btn btn-primary btn-sm"
-          onClick={() => editRow(params.data.id)}
-        >
-          Edit
-        </button>{" "}
-        <button
-          className="btn btn-danger btn-sm"
-          onClick={() => deleteRow(params.data.id)}
-        >
-          Delete
-        </button>
-      </div>
-    );
-  };
 
   const columnDefs = [
-    { headerName: "ID", field: "id", width: 100 },
+    // { headerName: "ID", field: "id", width: 100 },
     { headerName: "Name", field: "name", filter: true },
     { headerName: "Email", field: "email", filter: true },
     { headerName: "Role", field: "role", filter: true },
@@ -134,7 +140,7 @@ const Dashboard = () => {
   ];
 
   const columnUser = [
-    { headerName: "ID", field: "id", width: 50 },
+    // { headerName: "ID", field: "id", width: 50 },
     { headerName: "Name", field: "name", filter: true },
     { headerName: "Email", field: "email", filter: true },
     { headerName: "Role", field: "role", filter: true },
@@ -175,8 +181,14 @@ const Dashboard = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.put(`http://localhost:3001/users/${id}`, formData);
-      setUsers(users.map((user) => (user.id === id ? formData : user)));
+      console.log(id);
+      console.log(formData);
+      const update = await axios.patch(
+        `http://localhost:5000/submit/updateData?id=${id}`,
+        formData
+      );
+      // console.log("update data", update.data);
+      setUsers(users.map((user) => (user._id === id ? formData : user)));
       setShow(false);
     } catch (error) {
       console.error("Error updating user:", error);
@@ -194,7 +206,7 @@ const Dashboard = () => {
         </div>
         <div className="row">
           <div className="col">
-            {userRole !== "Admin" ? (
+            {userRole.role !== "User" ? (
               <div
                 className="ag-theme-alpine"
                 style={{ height: "500px", width: "100%" }}

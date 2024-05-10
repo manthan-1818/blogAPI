@@ -30,12 +30,7 @@ const userController = {
       console.log(email, password);
       const userData = await userService.login({ email, password });
       if (userData.success) {
-        // Generate access token
-        // const accessToken = jwt.sign({ email: userData.email }, jwtSecretKey, {
-        //   expiresIn: "10s", // Adjust the expiration time as needed
-        // });
-
-        const expiresIn = "10 s";
+        const expiresIn = "5m";
         const email = userData.user.email;
         const accessToken = jwt.sign({ email }, jwtSecretKey, {
           expiresIn,
@@ -52,7 +47,7 @@ const userController = {
           { email: userData.email },
           jwtRefreshSecretKey,
           {
-            expiresIn: "300s", // Adjust the expiration time as needed
+            expiresIn: "15m",
           }
         );
         res.status(200).json({
@@ -83,15 +78,18 @@ const userController = {
   },
 
   refreshToken: (req, res) => {
+    console.log("key", jwtRefreshSecretKey);
     const refreshToken = req.headers["refresh-token"];
     console.log("inside refreshToken", refreshToken);
+
     try {
-      const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
-      const newAccessToken = jwt.sign(
-        { email: decoded.email },
-        process.env.JWT_SECRET_KEY,
-        { expiresIn: "60s" }
-      );
+      const decoded = jwt.verify(refreshToken, jwtRefreshSecretKey);
+      console.log("decoded", decoded);
+
+      // Generate a new access token
+      const newAccessToken = jwt.sign({ email: decoded.email }, jwtSecretKey, {
+        expiresIn: "5m",
+      });
 
       // Send the new access token in the response
       return res.status(200).json({
@@ -99,6 +97,7 @@ const userController = {
         accessToken: newAccessToken,
       });
     } catch (error) {
+      // Handle different types of errors
       if (error.name === "TokenExpiredError") {
         return res.status(401).json({ message: "Refresh token has expired" });
       } else if (error.name === "JsonWebTokenError") {
@@ -109,5 +108,38 @@ const userController = {
       }
     }
   },
-};
+  updateUserData: async (req, res) => {
+    try {
+      const { id } = req.query;
+      const { name, email, password, role } = req.body;
+      console.log("cons", id, name);
+      const updateUserData = await userService.updateUserData({
+        id,
+        name,
+        email,
+        password,
+        role,
+      });
+      res.status(200).json(updateUserData);
+    } catch (error) {
+      console.error(`updateUserData controller error : ${error}`);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+    deleteUserData: async (req, res) => {
+      try {
+        const { id } = req.query;
+        console.log("Deleting user with ID:", id);
+  
+        const deletedUserData = await userService.deleteUserData(id);
+  
+        console.log("User deleted successfully:", deletedUserData);
+        res.status(200).json({ message: "User deleted successfully", deletedUserData });
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json({ error: "Internal server error" });
+      }
+    }
+  };
 module.exports = userController;

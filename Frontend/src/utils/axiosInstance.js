@@ -48,19 +48,19 @@ axiosInstance.interceptors.response.use(
 
     if (error.response && error.response.status === 419) {
       // Handle 419 error by refreshing the token
+      console.log("responseee");
       try {
         const refreshToken = localStorage.getItem("refreshToken");
         if (!refreshToken) {
           throw new Error("No refresh token available");
         }
-
         console.log("Inside token expiration handler, refreshing token...");
         const refreshResponse = await axios.get(
           `http://localhost:5000/refresh/refreshtoken`,
           {
             headers: {
-              'refresh-token': refreshToken
-            }
+              "refresh-token": refreshToken,
+            },
           }
         );
         console.log("-----------------resrefresh", refreshResponse);
@@ -78,10 +78,7 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
       }
     }
-
     return Promise.reject(error);
-}
-
+  }
 );
-
 export default axiosInstance;

@@ -1,5 +1,6 @@
 const User = require("../models/usermodels");
 const jwtKey = process.env.JWT_SECRET_KEY;
+const Blog = require('../models/blogmodels');
 const userService = {
   register: async (userData) => {
     try {
@@ -58,5 +59,36 @@ const userService = {
       throw error;
     }
   },
+  updateUserData: async ({ id, name, email, password, role }) => {
+    try {
+      console.log("codfgretrtr",id,name)
+
+      let updateFields = {};
+      if (name) updateFields.name = name;
+      if (email) updateFields.email = email;
+      if (password) updateFields.password = password; 
+      if (role) updateFields.role = role;
+
+      const updatedUserData = await User.findByIdAndUpdate(
+        id,
+        updateFields,
+        { new: true } 
+      );
+
+      return updatedUserData;
+    } catch (error) {
+      console.error("Error updating user data:", error);
+      throw error;
+    }
+  },
+  deleteUserData: async (id) => {
+    try {
+      const deletedUserData = await User.findByIdAndDelete(id);
+      return deletedUserData;
+    } catch (error) {
+      console.error("Error deleting user data:", error);
+      throw error;
+    }
+  }
 };
 module.exports = userService;
