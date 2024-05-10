@@ -55,7 +55,9 @@ const blogController = {
       let file;
       if (req.file) {
         file = req.file.buffer;
+        console.log("heeeeeeeeeeeeeee");
       }
+      console.log("heeeeeeeeeeeeeeelolololo");
       const updateblog = await blogService.updateblog({ id, title, description,file });
       res.status(200).json(updateblog);
     } catch (error) {

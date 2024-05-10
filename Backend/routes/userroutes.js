@@ -25,7 +25,7 @@ router.get("/preview/:id", blogController.preview);
 
 router.delete("/deleteblog", blogController.deleteblog);
 
-router.patch("/updateblog", blogController.updateblog);
+router.patch("/updateblog", upload.single("image"), blogController.updateblog);
 
 module.exports = router;
- 
+    

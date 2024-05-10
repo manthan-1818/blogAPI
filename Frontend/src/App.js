@@ -9,6 +9,7 @@ import Login from "./Components/Login.js";
 import Signup from "./Components/Signup.js";
 import Dashboard from "./Components/Dashboard";
 import Blog from "./Components/Blog.js";
+import Preview from "./Components/Preview.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
@@ -51,6 +52,7 @@ const App = () => {
           path="/blog"
           element={isLogin ? <Blog /> : <Navigate to="/" />}
         />
+          <Route path="/preview/:id" element={<Preview />} />
       </Routes>
     </Router>
   );
@@ -66,7 +68,7 @@ export default App;
 //         <Route path="/signup" element={<Signup />} />
 //         <Route path="/dashboard" element={<Dashboard />} />
 //         <Route path="/Blog" element={<Blog />} />
-//         <Route path="/preview/:id" element={<Preview />} />
+        // <Route path="/preview/:id" element={<Preview />} />
 //       </Routes>
 //     </Router>
 //   );

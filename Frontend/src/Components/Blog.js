@@ -96,9 +96,14 @@ const Blog = () => {
   const handleSubmitUpdate = async () => {
     try {
       console.log("Form Data:", formData);
+      const formDataToSend = new FormData();
+      formDataToSend.append("id", formData.id);
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("image", formData.image);
       await axios.patch(
         `http://localhost:5000/blog/updateblog?id=${formData.id}`,
-        formData
+        formDataToSend
       );
       const updatedBlogs = blog.map((item) =>
         item._id === formData.id ? formData : item
