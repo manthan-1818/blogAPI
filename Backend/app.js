@@ -6,12 +6,14 @@ require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT;
-const corsApi = process.env.CORS_ORIGIN;
+// const corsApi = process.env.CORS_ORIGIN;
 
 database();
 
 app.use(express.json());
-app.use(cors({ origin: corsApi }));
+app.use(cors({
+  origin: 'https://blog-api-delta-tawny.vercel.app'
+}));
 app.use("/submit", userroutes);
 app.use("/refresh", userroutes);
 app.use("/blog", userroutes);
