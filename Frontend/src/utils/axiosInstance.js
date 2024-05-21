@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://blog-api-delta-tawny.vercel.app/",
+  baseURL: "https://blogapi-4-sxvz.onrender.com/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -37,7 +37,6 @@ axiosInstance.interceptors.response.use(
     if (response.data.accessToken) {
       const newAccessToken = response.data.accessToken;
 
-      // Update the local storage with the new access token
       localStorage.setItem("accessToken", newAccessToken);
     }
 
@@ -47,7 +46,6 @@ axiosInstance.interceptors.response.use(
     console.error("Response Interceptor Error:", error);
 
     if (error.response && error.response.status === 419) {
-      // Handle 419 error by refreshing the token
       console.log("responseee");
       try {
         const refreshToken = localStorage.getItem("refreshToken");
@@ -63,13 +61,11 @@ axiosInstance.interceptors.response.use(
             },
           }
         );
-        console.log("-----------------resrefresh", refreshResponse);
-        // Get the new access token from the refresh response
+
         const newAccessToken = refreshResponse.data.accessToken;
         console.log("new token", newAccessToken);
         localStorage.setItem("accessToken", newAccessToken);
 
-        // Retry the original request with the new access token
         const originalRequest = error.config;
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
