@@ -18,7 +18,6 @@ const authentication = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      // Return 419 error if token is expired
       console.log("419 419 419 419 419 419 419");
       return res.status(419).json({ success: false, message: "Token expired" });
     } else {

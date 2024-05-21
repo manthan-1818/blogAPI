@@ -4,7 +4,7 @@ const userController = require("../controller/usercontroller");
 const authentication = require("../middleware/authentication"); 
 const blogController = require("../controller/blogcontroller");
 const upload = require("../middleware/multer");
-// router.post('/login',userController.login);
+
 router.post('/register',userController.register);
 
 router.post('/login',userController.login);

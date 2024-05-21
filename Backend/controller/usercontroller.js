@@ -42,7 +42,7 @@ const userController = {
           new Date(expirationTime * 1000).toLocaleString()
         );
 
-        // Generate refresh token
+       
         const refreshToken = jwt.sign(
           { email: userData.email },
           jwtRefreshSecretKey,
@@ -86,18 +86,18 @@ const userController = {
       const decoded = jwt.verify(refreshToken, jwtRefreshSecretKey);
       console.log("decoded", decoded);
 
-      // Generate a new access token
+     
       const newAccessToken = jwt.sign({ email: decoded.email }, jwtSecretKey, {
         expiresIn: "5m",
       });
 
-      // Send the new access token in the response
+     
       return res.status(200).json({
         message: "Access token refreshed successfully",
         accessToken: newAccessToken,
       });
     } catch (error) {
-      // Handle different types of errors
+      
       if (error.name === "TokenExpiredError") {
         return res.status(401).json({ message: "Refresh token has expired" });
       } else if (error.name === "JsonWebTokenError") {

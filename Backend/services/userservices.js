@@ -24,16 +24,10 @@ const userService = {
     try {
       console.log("Login userData:", userData);
       const user = await User.findOne({ email: userData.email });
-      console.log("Userrrrrrrr data:", user);
-
       if (!user) {
         return { success: false, message: "Login failed" };
       }
-      // const decryptedPassword = CryptoJS.AES.decrypt(
-      //   user.password,
-      //   secretKey
-      // ).toString(CryptoJS.enc.Utf8);
-
+      
       if (user.password === userData.pswd) {
         console.log("hello inside password");
         return {

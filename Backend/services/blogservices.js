@@ -2,8 +2,6 @@ const { preview } = require("../controller/blogcontroller");
 const Blog = require("../models/blogmodels");
 
 const blogService = {
-
-
   preview: async (_id) => {
     try {
       const blog = await Blog.findById(_id);
@@ -58,16 +56,9 @@ const blogService = {
           _id: blog._id,
           title: blog.title,
           description: blog.description,
-          //   user_id: blog.user_id,
-          //   filename: blog.filename,
-          //   contentType: blog.contentType,
-          // Convert binary image data to Base64 string
-          //   imageData: blog.file.toString("base64"),
-          //   date: blog.date,
-          // __v: blog.__v,
         };
       });
-      // console.log("big", blogsWithImageData);
+
       return blogsWithImageData;
     } catch (e) {
       console.error("Error fetching blog data:", error);
@@ -88,8 +79,7 @@ const blogService = {
   },
   updateblog: async (updateblog) => {
     try {
-      const _id = updateblog.id; 
-      // console.log("aaaaaaaaa", updateblog);
+      const _id = updateblog.id;
       const updatedblog = await Blog.findByIdAndUpdate(
         _id,
         {
@@ -97,15 +87,13 @@ const blogService = {
           description: updateblog.description,
           file: updateblog.file,
         },
-        { new: true } 
+        { new: true }
       );
       return updatedblog;
     } catch (error) {
-      throw error; 
+      throw error;
     }
-  }
+  },
 };
-
-
 
 module.exports = blogService;

@@ -16,7 +16,6 @@ app.use("/submit", userroutes);
 app.use("/refresh", userroutes);
 app.use("/blog", userroutes);
 app.use("/user", userroutes);
-// app.use("/userData", userRoutes);
 app.use("/", (req, res) => {
   res.send("first API");
 });
@@ -27,9 +26,3 @@ app.listen(port, () => {
 
 
 
-// .env
-// PORT=5000
-// MONGODB_URI=mongodb+srv://manthanvaghela1818:vP4I8AlIZCvXgJXj@cluster0.g1mklq0.mongodb.net/myblog
-// CORS_ORIGIN=http://localhost:3000
-// JWT_SECRET_KEY = 'secret_key_';
-// JWT_REFRESH_SECRET=your_refresh_secret_key_here
