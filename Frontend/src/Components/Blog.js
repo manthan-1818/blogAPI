@@ -46,7 +46,7 @@ const Blog = () => {
   const fetchBlogData = async () => {
     try {
       const response = await axios.get("/blog/readblog");
-      setBlog(response.data);
+      setBlog(response.data); // Ensure this is an array of objects
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -64,7 +64,7 @@ const Blog = () => {
       formDataObject.append("image", formData.image);
 
       const response = await axios.post(
-        "/submit/addblog",
+        "http://localhost:5000/submit/addblog",
         formDataObject,
         {
           headers: {
@@ -83,7 +83,6 @@ const Blog = () => {
 
   const handleShowUpdateModal = (id) => {
     const matchedBlog = blog.find((blog) => blog._id === id);
-    // console.log("Matched Blog:", matchedBlog);
     setFormData({
       id: matchedBlog._id,
       title: matchedBlog.title,
@@ -93,20 +92,22 @@ const Blog = () => {
     setShowUpdateModal(true);
   };
 
-  const handleSubmitUpdate = async () => {
+  const handleSubmitUpdate = async (e) => {
+    e.preventDefault();
     try {
-      console.log("Form Data:", formData);
       const formDataToSend = new FormData();
       formDataToSend.append("id", formData.id);
       formDataToSend.append("title", formData.title);
       formDataToSend.append("description", formData.description);
       formDataToSend.append("image", formData.image);
+
       await axios.patch(
-        `/blog/updateblog?id=${formData.id}`,
+        `http://localhost:5000/blog/updateblog?id=${formData.id}`,
         formDataToSend
       );
+
       const updatedBlogs = blog.map((item) =>
-        item._id === formData.id ? formData : item
+        item._id === formData.id ? { ...item, ...formData } : item
       );
       setBlog(updatedBlogs);
       setShowUpdateModal(false);
@@ -118,8 +119,8 @@ const Blog = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/blog/deleteblog?id=${id}`);
-      setBlog(blog.filter((blogItem) => blogItem.id !== id));
+      await axios.delete(`http://localhost:5000/blog/deleteblog?id=${id}`);
+      setBlog(blog.filter((blogItem) => blogItem._id !== id));
       setShowDeleteModal(false);
       fetchBlogData();
     } catch (error) {
@@ -158,7 +159,6 @@ const Blog = () => {
   };
 
   const columnDefs = [
-    // { headerName: "ID", field: "_id", width: 100 },
     {
       headerName: "Title",
       field: "title",
@@ -224,8 +224,6 @@ const Blog = () => {
         centered
         className="blog-modal"
       >
-        {/* Add Blog Modal Content */}
-
         <Modal.Header closeButton>
           <Modal.Title>Add Blog</Modal.Title>
         </Modal.Header>
@@ -271,16 +269,16 @@ const Blog = () => {
               )}
               <Form.Control type="file" name="image" onChange={handleChange} />
             </Form.Group>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseAddModal}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Modal.Footer>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseAddModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSubmitAdd}>
-            Submit
-          </Button>
-        </Modal.Footer>
       </Modal>
 
       <Modal
@@ -289,8 +287,6 @@ const Blog = () => {
         centered
         className="blog-modal"
       >
-        {/* Update Blog Modal Content */}
-
         <Modal.Header closeButton>
           <Modal.Title>Update Blog</Modal.Title>
         </Modal.Header>
@@ -329,16 +325,16 @@ const Blog = () => {
               <Form.Label className="modalLabel">Image</Form.Label>
               <Form.Control type="file" name="image" onChange={handleChange} />
             </Form.Group>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseUpdateModal}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Modal.Footer>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseUpdateModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSubmitUpdate}>
-            Submit
-          </Button>
-        </Modal.Footer>
       </Modal>
 
       <Modal
