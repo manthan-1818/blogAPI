@@ -20,7 +20,7 @@ const Preview = () => {
     const getData = async () => {
       try {
         console.log("inside the preview", id);
-        const response = await axios.get(`http://localhost:5000/blog/preview/${id}`);
+        const response = await axios.get(`/blog/preview/${id}`);
         console.log("blog data", response.data);
         setBlogData(response.data);
       } catch (e) {
