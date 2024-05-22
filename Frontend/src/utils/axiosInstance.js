@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
         }
         console.log("Inside token expiration handler, refreshing token...");
         const refreshResponse = await axios.get(
-          `http://localhost:5000/refresh/refreshtoken`,
+          `/refresh/refreshtoken`,
           {
             headers: {
               "refresh-token": refreshToken,

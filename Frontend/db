@@ -1,0 +1,97 @@
+{
+  "users": [
+    {
+      "id": "7c9e",
+      "name": "manthan",
+      "email": "ma@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Manthan1",
+      "cpswd": "Manthan1",
+      "role": "Admin"
+    },
+    {
+      "id": "b482",
+      "name": "jenil",
+      "email": "j@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Jenil111",
+      "cpswd": "Jenil111",
+      "role": "User"
+    },
+    {
+      "id": "a62c",
+      "name": "stavan",
+      "email": "st@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Stavan11",
+      "cpswd": "Stavan11",
+      "role": "User"
+    },
+    {
+      "id": "84d5",
+      "name": "mitesh",
+      "email": "mitesh@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Miten111",
+      "cpswd": "Miten111",
+      "role": "User"
+    },
+    {
+      "id": "d08a",
+      "name": "Druval",
+      "email": "Dhruval@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Dhruval11",
+      "cpswd": "Dhruval11",
+      "role": "User"
+    },
+    {
+      "id": "e6b7",
+      "name": "woooo",
+      "email": "wo@gmail.com",
+      "contact": "",
+      "state": "",
+      "pswd": "Wooooooo1",
+      "cpswd": "Wooooooo1",
+      "role": "User"
+    }
+  ],
+  "blog": [
+    {
+      "id": "9c84",
+      "title": "Echoes of Eternity",
+      "description": "Exploring the Cosmic Symphony"
+    },
+    {
+      "id": "8c22",
+      "title": "Whispers of the Universe",
+      "description": "Embark on a cosmic odyssey to reveal the profound secrets whispered by the universe itself.\n\n"
+    },
+    {
+      "id": "d52d",
+      "title": "Tales from the Edge of Space",
+      "description": "Discover captivating tales from the far reaches of the galaxy, where adventure and wonder await at every cosmic turn."
+    },
+    {
+      "id": "ac55",
+      "title": "Harmonies of the Cosmos",
+      "description": "Delve into the harmonious symphony of stardust as we explore the interconnected rhythms of the cosmos."
+    },
+    {
+      "id": "6760",
+      "title": "Journey to the Edge of Time",
+      "description": "Embark on an epic odyssey through time and space, where the mysteries of the universe unfold before your eyes.",
+      "image": "C:\\fakepath\\Screenshot from 2024-04-05 10-36-14.png"
+    },
+    {
+      "id": "ced1",
+      "title": "Exploring the Cosmic Imagination",
+      "description": " Journey into the depths of the cosmic imagination, where dreams become reality amidst the vast expanse of the universe.\n\n"
+    }
+  ]
+}

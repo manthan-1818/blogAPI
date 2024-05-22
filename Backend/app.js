@@ -11,9 +11,16 @@ const port = process.env.PORT;
 database();
 
 app.use(express.json());
-app.use(cors({
-  origin: 'https://blog-api-delta-tawny.vercel.app'
-}));
+app.use(
+  cors({
+    origin: [
+      "https://blog-api-delta-tawny.vercel.app",
+      "https://blog-api-delta-tawny.vercel.app/",
+      "http://localhost:3000",
+      "http://localhost:3000/",
+    ],
+  })
+);
 app.use("/submit", userroutes);
 app.use("/refresh", userroutes);
 app.use("/blog", userroutes);
@@ -25,6 +32,3 @@ app.use("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-
-
