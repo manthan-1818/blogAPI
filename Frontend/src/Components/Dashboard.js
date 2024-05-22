@@ -23,9 +23,6 @@ const Dashboard = () => {
   useEffect(() => {
     fetchUserData();
     const role = JSON.parse(localStorage.getItem("user"));
-    console.log("aaaaaaa",role.role);
-    console.log("bbbbbbb",role);
-
     setUserRole(role);
   }, []);
 
@@ -83,7 +80,7 @@ const Dashboard = () => {
   const handleConfirmDelete = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/user/deleteUserData?id=${userToDelete}`
+        `/user/deleteUserData?id=${userToDelete}`
       );
       console.log("User deleted successfully:", response.data);
       setUserData(userData.filter((user) => user._id !== userToDelete));
@@ -184,7 +181,7 @@ const Dashboard = () => {
       console.log(id);
       console.log(formData);
       const update = await axios.patch(
-        `http://localhost:5000/submit/updateData?id=${id}`,
+        `/submit/updateData?id=${id}`,
         formData
       );
       // console.log("update data", update.data);

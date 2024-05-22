@@ -64,7 +64,7 @@ const Blog = () => {
       formDataObject.append("image", formData.image);
 
       const response = await axios.post(
-        "http://localhost:5000/submit/addblog",
+        "/submit/addblog",
         formDataObject,
         {
           headers: {
@@ -102,7 +102,7 @@ const Blog = () => {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("image", formData.image);
       await axios.patch(
-        `http://localhost:5000/blog/updateblog?id=${formData.id}`,
+        `/blog/updateblog?id=${formData.id}`,
         formDataToSend
       );
       const updatedBlogs = blog.map((item) =>
@@ -118,7 +118,7 @@ const Blog = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/blog/deleteblog?id=${id}`);
+      await axios.delete(`/blog/deleteblog?id=${id}`);
       setBlog(blog.filter((blogItem) => blogItem.id !== id));
       setShowDeleteModal(false);
       fetchBlogData();
