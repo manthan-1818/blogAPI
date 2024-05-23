@@ -16,18 +16,20 @@ const App = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    checkLoginStatus();
-  }, []);
-
-  const checkLoginStatus = () => {
+    
     const user = localStorage.getItem("user");
     if (user) {
       setIsLogin(true);
     }
-  };
+  }, []); 
 
   const handleLogin = () => {
     setIsLogin(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setIsLogin(false);
   };
 
   return (
@@ -46,30 +48,13 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route
           path="/dashboard"
-          element={isLogin ? <Dashboard /> : <Navigate to="/" />}
+          element={isLogin ? <Dashboard handleLogout={handleLogout} /> : <Navigate to="/" />}
         />
-        <Route
-          path="/blog"
-          element={isLogin ? <Blog /> : <Navigate to="/" />}
-        />
-          <Route path="/preview/:id" element={<Preview />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/preview/:id" element={<Preview />} />
       </Routes>
     </Router>
   );
 };
 
 export default App;
-
-// function App() {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<Login />} />
-//         <Route path="/signup" element={<Signup />} />
-//         <Route path="/dashboard" element={<Dashboard />} />
-//         <Route path="/Blog" element={<Blog />} />
-        // <Route path="/preview/:id" element={<Preview />} />
-//       </Routes>
-//     </Router>
-//   );
-// }

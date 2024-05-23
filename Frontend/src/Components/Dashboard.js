@@ -23,9 +23,6 @@ const Dashboard = () => {
   useEffect(() => {
     fetchUserData();
     const role = JSON.parse(localStorage.getItem("user"));
-    console.log("aaaaaaa",role.role);
-    console.log("bbbbbbb",role);
-
     setUserRole(role);
   }, []);
 

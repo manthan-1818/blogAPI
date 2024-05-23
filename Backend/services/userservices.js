@@ -1,6 +1,6 @@
 const User = require("../models/usermodels");
 const jwtKey = process.env.JWT_SECRET_KEY;
-const Blog = require('../models/blogmodels');
+const Blog = require("../models/blogmodels");
 const userService = {
   register: async (userData) => {
     try {
@@ -27,7 +27,7 @@ const userService = {
       if (!user) {
         return { success: false, message: "Login failed" };
       }
-      
+
       if (user.password === userData.pswd) {
         console.log("hello inside password");
         return {
@@ -53,21 +53,19 @@ const userService = {
       throw error;
     }
   },
-  updateUserData: async ({ id, name, email, password, role }) => {
+  updateUserData: async ({ id, name, email, password, role, state, contact }) => {
     try {
-      console.log("codfgretrtr",id,name)
-
       let updateFields = {};
       if (name) updateFields.name = name;
       if (email) updateFields.email = email;
-      if (password) updateFields.password = password; 
+      if (password) updateFields.password = password;
       if (role) updateFields.role = role;
+      if (state) updateFields.state = state; 
+      if (contact) updateFields.contact = contact; 
 
-      const updatedUserData = await User.findByIdAndUpdate(
-        id,
-        updateFields,
-        { new: true } 
-      );
+      const updatedUserData = await User.findByIdAndUpdate(id, updateFields, {
+        new: true,
+      });
 
       return updatedUserData;
     } catch (error) {
@@ -83,6 +81,6 @@ const userService = {
       console.error("Error deleting user data:", error);
       throw error;
     }
-  }
+  },
 };
 module.exports = userService;
