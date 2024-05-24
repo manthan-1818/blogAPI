@@ -10,15 +10,13 @@ const blogService = {
         throw new Error("Blog not found");
       }
 
-      const imageData = blog.file.toString("base64");
-      console.log("imageData", imageData);
+      // const imageData = blog.file.toString("base64");
+      console.log("imageData", blog);
       return {
         _id: blog._id,
         title: blog.title,
         description: blog.description,
-        filename: blog.filename,
-        contentType: blog.contentType,
-        imageData: imageData,
+        imageUrl:blog.imageUrl,
         date: blog.date,
       };
     } catch (error) {
@@ -37,9 +35,7 @@ const blogService = {
       const newBlog = await Blog.create({
         title,
         description,
-        filename: file.originalname,
-        contentType: file.mimetype,
-        file: file.buffer,
+        imageUrl:file
       });
 
       return newBlog;
@@ -85,7 +81,7 @@ const blogService = {
         {
           title: updateblog.title,
           description: updateblog.description,
-          file: updateblog.file,
+          imageUrl: updateblog.imageUrl,
         },
         { new: true }
       );

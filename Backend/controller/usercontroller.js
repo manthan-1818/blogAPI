@@ -18,7 +18,7 @@ const userController = {
         role: "User",
       });
 
-      // Invalidate cache
+      
       redisClient.del("userData");
 
       res
@@ -73,17 +73,17 @@ const userController = {
   },
   getUserData: async (req, res) => {
     try {
-      // Try to get user data from Redis cache
+    
       const cachedUserData = await redisClient.get("userData");
 
       if (cachedUserData) {
-        // If user data is found in cache, return it
+        
         res.status(200).json(JSON.parse(cachedUserData));
       } else {
-        // If user data is not found in cache, fetch from database
+        
         const userData = await userService.getUserData();
 
-        // Cache the user data in Redis
+        
         redisClient.set("userData", JSON.stringify(userData), "EX", 3600); // Cache for 1 hour
 
         res.status(200).json(userData);
@@ -128,7 +128,11 @@ const userController = {
       const { id } = req.query;
       const { name, email, password, role, state, contact } = req.body;
       console.log("Update user data:", { id, name, email, password, role, state, contact });
-  
+      let imageUrl;
+      if (req.file) {
+        imageUrl = req.file.path;
+        console.log("if",imageUrl);
+      }
       const updateUserData = await userService.updateUserData({
         id,
         name,
@@ -139,7 +143,7 @@ const userController = {
         contact,
       });
   
-      // Invalidate cache only if updateUserData is successful
+      
       if (updateUserData) {
         redisClient.del("userData");
       }
@@ -159,7 +163,7 @@ const userController = {
 
       const deletedUserData = await userService.deleteUserData(id);
 
-      // Invalidate cache only if deletedUserData is successful
+     
       if (deletedUserData) {
         redisClient.del("userData");
         console.log("User deleted successfully:", deletedUserData);

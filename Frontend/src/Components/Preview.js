@@ -5,13 +5,11 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import axios from "axios";
 
 const Preview = () => {
-  // Get _id from query parameters
+ 
   const location = useLocation();
   const { id } = useParams();
   const queryParams = new URLSearchParams(location.search);
-  // const _id = localStorage.getItem("_id");
-  // const userID = localStorage.getItem(_id);  
-  // console.log("aaaaaaaaaaa", userID);
+ 
   console.log("iiiiiiiiidddd", id);
 
   const [blogData, setBlogData] = useState({ title: "", description: "" });
@@ -35,7 +33,7 @@ const Preview = () => {
   return (
     <>
       <div className="container mt-5">
-        {/* Header */}
+        
         <div className="row mb-4">
           <div className="col-12">
             <Link to="/Blog" className="btn btn-dark d-flex align-items-center">
@@ -44,7 +42,7 @@ const Preview = () => {
           </div>
         </div>
 
-        {/* Title */}
+       
         <div className="row mb-4">
           <div className="col-12">
             <h2>Title:</h2>
@@ -54,11 +52,11 @@ const Preview = () => {
 
         <hr />
 
-        {/* Image and description */}
+       
         <div className="row">
           <div className="col-md-6 mb-4">
             <img
-              src={`data:${blogData.contentType};base64,${blogData.imageData}`}
+              src={blogData.imageUrl}
               alt={blogData.title}
               className="img-fluid rounded"
             />

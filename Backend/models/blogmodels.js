@@ -6,9 +6,7 @@ const blogSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  filename: String,
-  contentType: String,
-  file: Buffer 
+   imageUrl: { type: String, required: true }, 
 });
 
 const blogModel = mongoose.model("Blog", blogSchema);

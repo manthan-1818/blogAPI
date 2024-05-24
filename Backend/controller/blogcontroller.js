@@ -5,10 +5,10 @@ const blogController = {
   addblog: async (req, res) => {
     try {
       const { title, description } = req.body;
-      const file = req.file;
-      const addblog = await blogService.addblog({ title, description }, file);
+      const imageUrl = req.file.path; 
+      const addblog = await blogService.addblog({ title, description }, imageUrl);
 
-      // Invalidate cache only if blog was added successfully
+      
       if (addblog) {
         redisClient.del("blogData");
       }
@@ -87,16 +87,16 @@ const blogController = {
     try {
       const { title, description } = req.body;
       const { id } = req.query;
-      let file;
+      let imageUrl;
       if (req.file) {
-        file = req.file.buffer;
+        imageUrl = req.file.path;
       }
 
       const updateblog = await blogService.updateblog({
         id,
         title,
         description,
-        file,
+        imageUrl,
       });
       
       if (updateblog) {
