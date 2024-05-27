@@ -12,7 +12,8 @@ const Preview = () => {
  
   console.log("iiiiiiiiidddd", id);
 
-  const [blogData, setBlogData] = useState({ title: "", description: "" });
+  const [blogData, setBlogData] = useState({ title: "", description: "", imageUrl: "" });
+
 
   useEffect(() => {
     const getData = async () => {
@@ -20,6 +21,7 @@ const Preview = () => {
         console.log("inside the preview", id);
         const response = await axios.get(`http://localhost:5000/blog/preview/${id}`);
         console.log("blog data", response.data);
+       console.log("Image URL:", response.data.imageUrl);
         setBlogData(response.data);
       } catch (e) {
         console.error("Error fetching data:", e);
@@ -29,6 +31,9 @@ const Preview = () => {
       getData();      
     }
   }, [id]);
+
+  // Log the image URL
+ 
 
   return (
     <>
@@ -54,7 +59,9 @@ const Preview = () => {
 
        
         <div className="row">
-          <div className="col-md-6 mb-4">
+          
+
+          <div className="col-md-6 mb-4" >
             <img
               src={blogData.imageUrl}
               alt={blogData.title}

@@ -11,7 +11,8 @@ const blogService = {
       }
 
       // const imageData = blog.file.toString("base64");
-      console.log("imageData", blog);
+
+      console.log("imageData", blog.imageUrl);
       return {
         _id: blog._id,
         title: blog.title,

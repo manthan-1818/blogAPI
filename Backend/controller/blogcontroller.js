@@ -5,10 +5,13 @@ const blogController = {
   addblog: async (req, res) => {
     try {
       const { title, description } = req.body;
-      const imageUrl = req.file.path; 
-      const addblog = await blogService.addblog({ title, description }, imageUrl);
+      const imageUrl = req.file.path;
+      const addblog = await blogService.addblog(
+        { title, description },
+        imageUrl
+      );
+      redisClient.del("blogData");
 
-      
       if (addblog) {
         redisClient.del("blogData");
       }
@@ -27,7 +30,6 @@ const blogController = {
       const cachedBlogData = await redisClient.get("blogData");
 
       if (cachedBlogData) {
-
         res.status(200).json(JSON.parse(cachedBlogData));
       } else {
         const blogData = await blogService.readblog();
@@ -42,34 +44,26 @@ const blogController = {
     }
   },
 
- preview: async (req, res) => {
-  try {
-    const { id } = req.params; 
+  preview: async (req, res) => {
+    try {
+      const { id } = req.params;
 
-    const cachedPreviewData = await redisClient.get(`preview:${id}`);
-
-    if (cachedPreviewData) {
-      res.status(200).json(JSON.parse(cachedPreviewData));
-    } else {
       const blogData = await blogService.preview(id);
-      redisClient.set(`preview:${id}`, JSON.stringify(blogData), "EX", 3600);
-      res.status(200).json(blogData);
-    }
-  } catch (error) {
-    console.error("Error fetching blog data:", error);
-    res
-      .status(500)
-      .json({ message: "Error fetching blog data", error: error.message });
-  }
-},
 
+      res.status(200).json(blogData);
+    } catch (error) {
+      console.error("Error fetching blog data:", error);
+      res
+        .status(500)
+        .json({ message: "Error fetching blog data", error: error.message });
+    }
+  },
 
   deleteblog: async (req, res) => {
     try {
       const { id } = req.query;
       const deleteblog = await blogService.deleteblog(id);
 
-      
       if (deleteblog) {
         redisClient.del("blogData");
       }
@@ -90,6 +84,7 @@ const blogController = {
       let imageUrl;
       if (req.file) {
         imageUrl = req.file.path;
+        console.log(`Image uploaded: ${imageUrl}`);
       }
 
       const updateblog = await blogService.updateblog({
@@ -98,7 +93,7 @@ const blogController = {
         description,
         imageUrl,
       });
-      
+
       if (updateblog) {
         redisClient.del("blogData");
       }
@@ -114,7 +109,6 @@ const blogController = {
 };
 
 module.exports = blogController;
-
 
 // readblog: async (req, res) => {
 //   try {

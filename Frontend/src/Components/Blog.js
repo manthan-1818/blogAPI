@@ -100,6 +100,7 @@ const Blog = () => {
       formDataToSend.append("title", formData.title);
       formDataToSend.append("description", formData.description);
       formDataToSend.append("image", formData.image);
+      console.log("Form data to send:", formDataToSend);
       await axios.patch(
         `http://localhost:5000/blog/updateblog?id=${formData.id}`,
         formDataToSend
